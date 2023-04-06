@@ -2,7 +2,7 @@
 
 
 
-# Hackkerank
+# Hackerrank
 ### 1. Hello world
 ```java
 public class Solution {
