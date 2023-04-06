@@ -1,42 +1,6 @@
 
 
 
-## 0. Hello World
-```java
-public class HelloWorld {
-	public static void main(String[] args) {
-		System.out.println("Hello, World!");
-		}
-	}
-```
-
-
-## 1. Kiểu dữ liệu - Type
-### 1.1 Primitives
-```java
-byte a=1;
-short b=2;
-int c=999;
-long d=1000L;
-float e=3.14f;
-double f=1.7129d;
-boolean g=true;
-char h='A'; //<=> char h = 65;
-
-```
-### 1.2 Non-primitives
-String, Array, Class, Interface
-Phân loại primitive and non-primitive
-+ Primitive: được java định nghĩa sẵn, Non-primitive: do người dùng định nghĩa (trừ String).
-+  Non-primitive: có thể thực hiện các chứ năng khác thông qua gọi hàm
-+ Primitive: luôn có giá trị, Non-primitive: có thể null
-
-| Primitives | Non-Primitive |
-|--|--|
-| được java định nghĩa sẵn | do người dùng định nghĩa (trừ String) 
-|không có|có thể thực hiện các chứ năng khác thông qua gọi hàm|
-| luôn có kiểu dữ liệu| có thể null|
-|bắt đầu chữa cái thường| bắt đầu chữ cái in hoa|
 
 # Hackkerank
 ### 1. Hello world
