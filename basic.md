@@ -1,8 +1,7 @@
 
 
 
-
-# Hackerrank
+# Hackkerank
 ### 1. Hello world
 ```java
 public class Solution {
@@ -130,14 +129,7 @@ Calendar c = Calendar.getInstance();
 c.set();//set date
 c.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.UK);
 
-NumberFormat.getCurrencyInstance(Locale.US).format(vlse{}
-if(true&&true){//run}
-eale)/run}
-else{}
-if(true&&false){}
-else{//run}
-
-if(false||faluse);
+NumberFormat.getCurrencyInstance(Locale.US).format(vl
 ```
 https://www.hackerrank.com/challenges/java-date-and-time/problem
 https://www.hackerrank.com/challenges/java-currency-formatter/problem
@@ -149,12 +141,50 @@ Các method của string
 + .toLowerCase(), .toUpperCase() -> String
 + .equal() -> boolean, .compareTo()-> int
 + .charAt(index) -> char
-
 https://www.hackerrank.com/challenges/java-strings-introduction/problem
 https://www.hackerrank.com/challenges/java-substring
 https://www.hackerrank.com/challenges/java-loops-i/problem
 https://www.hackerrank.com/challenges/java-string-reverse/problem
 https://www.hackerrank.com/challenges/java-anagrams/problem
++ .split(string or regex) -> String[]
+```java
+//Java regex pattern
+Pattern pattern = Pattern.compile("w",Pattern.CASE_INSENSITIVE);
+//nếu lỗi: "PatternSyntaxException"
+Matcher matcher = pattern.matcher("www.google.com");
+boolean matchFound = matcher.find(); //true
+//some pattern
+[^abc]: ký tự không phải a,b hay c
+\d: tìm ký tự là số
+```
+for more pattern: https://docs.oracle.com/javase/8/docs/api/java/util/regex/Pattern.htmlp
+
 https://www.hackerrank.com/challenges/java-string-tokens/problem
-
-
+https://www.hackerrank.com/challenges/pattern-syntax-checker/problem
+```
+Hint regex for IP:
+[01]?[0-9]?[0-9]: 000 ->199, hoặc 0 -> 199
+2[0-4][0-9]: 100 -> 249
+25[0-5]: 250 -> 255
+```
+https://www.hackerrank.com/challenges/valid-username-checker/problem
+https://www.hackerrank.com/challenges/java-regex/problem
+```
+regex nhóm từng group
+pattern = "<(.+)>([^<>]+)</(\\1)>"
+string = "<h1>Nayeem loves counseling</h1>"
+=> group 1: h1
+=> group 2: Nayeem loves counseling
+=> group 3: h1
+--------------
+regex cho từ lặp lại: "\\b(\\w+)(\\W\\1)+\\b"
+```
+### 9. BigInt
+```java
+String n= "999999999";
+String m= "8888888888";
+BigInteger a = new BigInteger(n);
+BigInteger b = new BigInteger(m);
+a.add(b);
+a.multiply(b);
+```
