@@ -156,9 +156,10 @@ boolean matchFound = matcher.find(); //true
 [^abc]: ký tự không phải a,b hay c
 \d: tìm ký tự là số
 ```
-for more pattern: https://docs.oracle.com/javase/8/docs/api/java/util/regex/Pattern.htmlp
+for more pattern: https://docs.oracle.com/javase/8/docs/api/java/util/regex/Pattern.html
 
 https://www.hackerrank.com/challenges/java-string-tokens/problem
+
 https://www.hackerrank.com/challenges/pattern-syntax-checker/problem
 ```
 Hint regex for IP:
@@ -206,7 +207,9 @@ Collections.sort(a);//[1,3,99]
 ```
 
 https://www.hackerrank.com/challenges/java-1d-array-introduction/problem
+
 https://www.hackerrank.com/challenges/java-list/problem
+
 https://www.hackerrank.com/challenges/java-bigdecimal/problem
 
 ![java-collections](./Java-Collections-Framework-Hierarchy.png)
