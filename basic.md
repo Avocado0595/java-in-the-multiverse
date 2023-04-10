@@ -188,3 +188,5 @@ BigInteger b = new BigInteger(m);
 a.add(b);
 a.multiply(b);
 ```
+
+![java-collections](./Java-Collections-Framework-Hierarchy.png)
