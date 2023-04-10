@@ -1,7 +1,6 @@
 
 
-
-# HackerRank
+# Hackkerank
 ### 1. Hello world
 ```java
 public class Solution {
@@ -179,7 +178,7 @@ string = "<h1>Nayeem loves counseling</h1>"
 --------------
 regex cho từ lặp lại: "\\b(\\w+)(\\W\\1)+\\b"
 ```
-### 9. BigInt
+### 9. BigInteger, BigDecimal
 ```java
 String n= "999999999";
 String m= "8888888888";
@@ -188,5 +187,26 @@ BigInteger b = new BigInteger(m);
 a.add(b);
 a.multiply(b);
 ```
+###  10. Array
+```java
+int[] a = new int[n]; //array 1D
+List<List<Integer>> arr = new ArrayList<>();//list 2D
+//list method
+
+ArrayList<int> a = new ArrayList<>();//a=[]
+a.add(1);//a=[1]
+a.add(2);//a=[1,2]
+a.add(3);//a=[1,2,3]
+a.set(1,99);//a=[1,99,3]
+System.out.println(a.get(1));//99
+a.size();//3
+a.remove(2);//[1,99]
+a.add(3);//[1,99,3]
+Collections.sort(a);//[1,3,99]
+```
+
+https://www.hackerrank.com/challenges/java-1d-array-introduction/problem
+https://www.hackerrank.com/challenges/java-list/problem
+https://www.hackerrank.com/challenges/java-bigdecimal/problem
 
 ![java-collections](./Java-Collections-Framework-Hierarchy.png)
