@@ -1,5 +1,6 @@
 
 
+
 # Hackkerank
 ### 1. Hello world
 ```java
@@ -156,10 +157,9 @@ boolean matchFound = matcher.find(); //true
 [^abc]: ký tự không phải a,b hay c
 \d: tìm ký tự là số
 ```
-for more pattern: https://docs.oracle.com/javase/8/docs/api/java/util/regex/Pattern.html
+for more pattern: https://docs.oracle.com/javase/8/docs/api/java/util/regex/Pattern.htmlp
 
 https://www.hackerrank.com/challenges/java-string-tokens/problem
-
 https://www.hackerrank.com/challenges/pattern-syntax-checker/problem
 ```
 Hint regex for IP:
@@ -192,6 +192,8 @@ a.multiply(b);
 ```java
 int[] a = new int[n]; //array 1D
 List<List<Integer>> arr = new ArrayList<>();//list 2D
+
+List là Interface, ArrayList implement List
 //list method
 
 ArrayList<int> a = new ArrayList<>();//a=[]
@@ -210,6 +212,53 @@ https://www.hackerrank.com/challenges/java-1d-array-introduction/problem
 
 https://www.hackerrank.com/challenges/java-list/problem
 
+https://www.hackerrank.com/challenges/java-arraylist/problem
+
 https://www.hackerrank.com/challenges/java-bigdecimal/problem
+
+### 11. Map
+```java
+Map<Integer,String> mymap = new HashMap<Integer,String>();
+Map là Interface, HashMap implement Map
+mymap.put(key, value);
+mymap.containsKey(key);
+mymap.get(key);
+mymap.remove(key);
+Set<Integer> set = map.keySet(); //get tất cả các key thành Set
+Set<Integer> set = map.entrySet();//get tất cả các key-value thành Set
+```
+
+### 12. Set
+```java
+Set<String> setA = new HashSet<String>();
+setA.add("string 1");
+set.contains("string 2";//false
+Iterator<String> iterator = setA.iterator();
+while (iterator.hasNext()) {
+	System.out.println((String) iterator.next());
+}
+```
+### 13. Generic
+```java
+public  static  <T>  void  printArray(T[]  arr){
+	for(T  a:arr){
+		System.out.println(a);
+		}
+}
+```
+### 14. Comparator
+```java
+class  Checker  implements  Comparator<Player>  {
+	@Override
+	public  int  compare(Player  p1,  Player  p2)  {
+		if(p2.score  ==  p1.score){
+			return  p1.name.compareTo(p2.name);
+		}
+		return  p2.score-p1.score;
+		}
+	}
+}
+```
+
 
 ![java-collections](./Java-Collections-Framework-Hierarchy.png)
