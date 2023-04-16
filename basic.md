@@ -1,6 +1,6 @@
 
 
-# Hackkerank
+# Java From Hackerrank
 ### 1. Hello world
 ```java
 public class Solution {
@@ -25,6 +25,7 @@ Breakdown
  + out: 1 field static trong class System - liên quan đến các lệnh xuất, in
  + println(): một method - in ra màn hình console
  + "Hello, World!": tham số truyền vào hàm println
+ 
  https://www.hackerrank.com/challenges/welcome-to-java
  
 ### 2. Input
@@ -68,8 +69,11 @@ scan.hasNext();
 kiểm tra input đã hết chưa
 ```
 https://www.hackerrank.com/challenges/java-stdin-and-stdout-1/problem
+
 https://www.hackerrank.com/challenges/java-stdin-stdout/problem
+
 https://www.hackerrank.com/challenges/java-end-of-file?isFullScreen=true
+
 ### 3. Condition
 ```java
 if(condition){
@@ -79,7 +83,9 @@ else{
 //code if false
 }
 ```
+
 https://www.hackerrank.com/challenges/java-if-else/problem?isFullScreen=true
+
 ### 4. Formatting
 ```java
 System.out.printf("%-10s%0d%n", str, x);
@@ -90,6 +96,7 @@ System.out.printf("%-10s%0d%n", str, x);
 //%n: \n =  xuống dòng
 ```
 https://www.hackerrank.com/challenges/java-output-formatting/problem?isFullScreen=true
+
 ### 5. Loop
 ```java
 for(int i=1; i<3; i++){
@@ -110,6 +117,7 @@ for(int i=0;i<3;i++){
 0 1 2
 ```
 https://www.hackerrank.com/challenges/java-loops-i/problem
+
 ### 6. Data types
 |type|range|size|default|
 |--|--|--|--|
@@ -121,7 +129,9 @@ https://www.hackerrank.com/challenges/java-loops-i/problem
 |boolean|true, fasle|1-bit|false
 |char|0 to 65.535|16-bit| '\u0000'
 |String|||null
+
 https://www.hackerrank.com/challenges/java-datatypes?isFullScreen=true
+
 ### 7. Date time & Currency
 ```java
 Calendar c = Calendar.getInstance();
@@ -131,6 +141,7 @@ c.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.UK);
 NumberFormat.getCurrencyInstance(Locale.US).format(vl
 ```
 https://www.hackerrank.com/challenges/java-date-and-time/problem
+
 https://www.hackerrank.com/challenges/java-currency-formatter/problem
 
 ### 8. String
@@ -140,11 +151,17 @@ Các method của string
 + .toLowerCase(), .toUpperCase() -> String
 + .equal() -> boolean, .compareTo()-> int
 + .charAt(index) -> char
+
 https://www.hackerrank.com/challenges/java-strings-introduction/problem
+
 https://www.hackerrank.com/challenges/java-substring
+
 https://www.hackerrank.com/challenges/java-loops-i/problem
+
 https://www.hackerrank.com/challenges/java-string-reverse/problem
+
 https://www.hackerrank.com/challenges/java-anagrams/problem
+
 + .split(string or regex) -> String[]
 ```java
 //Java regex pattern
@@ -159,15 +176,20 @@ boolean matchFound = matcher.find(); //true
 for more pattern: https://docs.oracle.com/javase/8/docs/api/java/util/regex/Pattern.htmlp
 
 https://www.hackerrank.com/challenges/java-string-tokens/problem
+
 https://www.hackerrank.com/challenges/pattern-syntax-checker/problem
+
 ```
 Hint regex for IP:
 [01]?[0-9]?[0-9]: 000 ->199, hoặc 0 -> 199
 2[0-4][0-9]: 100 -> 249
 25[0-5]: 250 -> 255
 ```
+
 https://www.hackerrank.com/challenges/valid-username-checker/problem
+
 https://www.hackerrank.com/challenges/java-regex/problem
+
 ```
 regex nhóm từng group
 pattern = "<(.+)>([^<>]+)</(\\1)>"
@@ -402,9 +424,5 @@ public class App{
 //hello thread 1
 //hello thread 2
 ```
-
-
-
-
 
 ![java-thread](./java-thread-lifecycle.png)
