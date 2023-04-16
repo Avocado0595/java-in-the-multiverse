@@ -1,6 +1,5 @@
 
 
-
 # Hackkerank
 ### 1. Hello world
 ```java
@@ -192,7 +191,11 @@ a.multiply(b);
 ```java
 int[] a = new int[n]; //array 1D
 List<List<Integer>> arr = new ArrayList<>();//list 2D
-
+/*các collectionscua3 java về sau nhưa List, ArrayList, Map,...
+đều tùng type là Wrapper Classes (chuyển type primitive sang object).
+Ví dụ: List<int> => error phải là List<Integer>
+Chỉ cần chuyển các type từ in thường sang in hoa chữ cái đầu là được
+*/
 List là Interface, ArrayList implement List
 //list method
 
@@ -207,6 +210,8 @@ a.remove(2);//[1,99]
 a.add(3);//[1,99,3]
 Collections.sort(a);//[1,3,99]
 ```
+
+![java-collections](./Java-Collections-Framework-Hierarchy.png)
 
 https://www.hackerrank.com/challenges/java-1d-array-introduction/problem
 
@@ -259,8 +264,147 @@ class  Checker  implements  Comparator<Player>  {
 	}
 }
 ```
+### 15. Dequeue
+```java
+Deque dq = new ArrayDeque();
+qd.add(value);
+dq.removeFirst();
+dq.removeLast();
+dq.peekFirst();
+dq.removeLast();
+```
+### 16. Exception
+```java
+Scanner  scan  =  new  Scanner(System.in);
+try{
+	int  x  =  scan.nextInt();
+	int  y  =  scan.nextInt();
+	System.out.println(x/y);
+}
+catch(Exception  e){
+	System.out.println(e.toString());
+}
+```
+
+https://www.hackerrank.com/challenges/java-exception-handling-try-catch
+
+https://www.hackerrank.com/challenges/java-exception-handling/problem
+
+### 17. File
+```java
+import  java.io.File;  // Import the File class
+import  java.io.FileWriter;//Write to file
+import  java.io.IOException;  // Import the IOException class to handle errors
+import  java.util.Scanner;
+public  class  App  {
+	public  static  void  main(String[] args)  throws  Exception{
+		System.out.println("Hello, World!");
+		try {
+			//////// check file tồn tại - hoặc tạo file mới
+			File  myObj  =  new  File("newfile.txt");
+			if (myObj.createNewFile()) {
+				System.out.println("File created: "  + myObj.getName());
+			} else {
+				System.out.println("File already exists.");
+			}
+			///////// ghi vào file
+			FileWriter  myWriter  =  new  FileWriter(myObj.getName(), true);
+			myWriter.write("Files in Java might be tricky, but it is fun enough!\n");
+			myWriter.close();
+			System.out.println("Successfully wrote to the file.");
+			///////////// đọc file
+			Scanner  myReader  =  new  Scanner(myObj);
+			while (myReader.hasNextLine()) {
+				String  data  =  myReader.nextLine();
+				System.out.println(data);
+			}
+			myReader.close();
+			} catch (IOException  e) {
+				System.out.println("An error occurred.");
+				e.printStackTrace();
+			}
+		}
+}
+```
+
+### 18. Thread
+Cho phép các class, hàm chạy song song.
+a) Cách tạo thread
+- Cách 1: extends Thread
+```java
+//Thread1.java
+public class Thread1 extends Thread{
+	public void run(){
+		System.out.println("thread 1 is running...");
+	}
+}
+//App.java
+public class App  {
+	public static void main(String[] args) throws Exception{
+		Thread1 t1  =  new Thread1();
+		t1.start();
+	}
+}
+```
+- Cách 2: implements Runnable
+```java
+//Thread1.java
+public class Thread1 implements Runnable{
+	public void run()  {
+		System.out.println("thread 1 is running...");
+	}
+}
+//App.java
+public class App  {
+	public static void main(String[] args) throws Exception{
+		Thread t1 = new Thread(new Thread1());
+		t1.start();
+	}
+}
+```
+b) Thread lifecycle
+c) setPriority
+```java
+//Thread1.java
+public class Thread1 extends Thread{
+	public void run()  {
+		System.out.println("thread 1 is running...");
+	}
+	public void getHello()  {
+		System.out.println("hello thread 1");
+	}
+}
+
+//Thread2.java
+public class Thread2 extends Thread{
+	public void run(){
+		System.out.println("thread 2 is running...");
+	}
+	public void getHello(){
+		System.out.println("hello thread 2");
+	}
+}
+
+//App.java
+public class App{
+	public static void main(String[] args) throws Exception{
+		Thread1 t1 = new Thread1();
+		Thread2 t2 = new Thread2();
+		t2.setPriority(2);
+		t1.setPriority(1);
+		t1.start();
+		t2.start();
+		t2.getHello();
+		t1.getHello();
+	}
+}
+//Result
+//hello thread 1
+//hello thread 2
+```
 
 
-![java-collections](./Java-Collections-Framework-Hierarchy.png)
+
+
 
 ![java-thread](./java-thread-lifecycle.png)
