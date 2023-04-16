@@ -384,8 +384,13 @@ public class App  {
 	}
 }
 ```
+
 b) Thread lifecycle
+
+![java-thread](./java-thread-lifecycle.png)
+
 c) setPriority
+
 ```java
 //Thread1.java
 public class Thread1 extends Thread{
@@ -425,4 +430,4 @@ public class App{
 //hello thread 2
 ```
 
-![java-thread](./java-thread-lifecycle.png)
+
