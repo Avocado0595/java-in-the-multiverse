@@ -262,3 +262,5 @@ class  Checker  implements  Comparator<Player>  {
 
 
 ![java-collections](./Java-Collections-Framework-Hierarchy.png)
+
+![java-thread](./java-thread-lifecycle.png)
