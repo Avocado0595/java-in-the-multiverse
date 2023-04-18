@@ -213,7 +213,7 @@ a.multiply(b);
 ```java
 int[] a = new int[n]; //array 1D
 List<List<Integer>> arr = new ArrayList<>();//list 2D
-/*các collectionscua3 java về sau nhưa List, ArrayList, Map,...
+/*các collections của java về sau nhưa List, ArrayList, Map,...
 đều tùng type là Wrapper Classes (chuyển type primitive sang object).
 Ví dụ: List<int> => error phải là List<Integer>
 Chỉ cần chuyển các type từ in thường sang in hoa chữ cái đầu là được
@@ -221,7 +221,7 @@ Chỉ cần chuyển các type từ in thường sang in hoa chữ cái đầu l
 List là Interface, ArrayList implement List
 //list method
 
-ArrayList<int> a = new ArrayList<>();//a=[]
+ArrayList<Integer> a = new ArrayList<>();//a=[]
 a.add(1);//a=[1]
 a.add(2);//a=[1,2]
 a.add(3);//a=[1,2,3]
