@@ -1,5 +1,6 @@
 
 
+
 # Java From Hackerrank
 ### 1. Hello world
 ```java
@@ -132,6 +133,30 @@ https://www.hackerrank.com/challenges/java-loops-i/problem
 
 https://www.hackerrank.com/challenges/java-datatypes?isFullScreen=true
 
+*Type conversion
+```java
+byte a = 1;
+byte b=2;
+char c=3;
+short f = 5;
+int d = a+b; //byte + byte => int (not byte)
+int e = b+c; //byte + char =>int
+int g = c+f;// char + short => int
+```
+*dùng uderscore (_) để tách số
+```java
+int a = 123456;
+int b=123_456;
+//a===b => true
+```
+* chia cho 0
+```java
+int a = 0;
+float b=0;
+1/a; //java.lang.ArithmeticException: / by zero
+1/b;// Infinity
+-1/b;//-Infinity
+```
 ### 7. Date time & Currency
 ```java
 Calendar c = Calendar.getInstance();
@@ -145,12 +170,33 @@ https://www.hackerrank.com/challenges/java-date-and-time/problem
 https://www.hackerrank.com/challenges/java-currency-formatter/problem
 
 ### 8. String
-Các method của string
+```java
+String s1 = "Hello World";//s1 = Hello World
+String s2 = "Hello"+" "+"World";//s2 = Hello World
+String s3 = "\""; // s3 = "
+String s4 = "D:\\Document";//s4 = D:\Document
+```
+
+*Các method của string
 + .length() -> int
 + .substring(start,end) -> String
 + .toLowerCase(), .toUpperCase() -> String
 + .equal() -> boolean, .compareTo()-> int
 + .charAt(index) -> char
++ .contains(substring) ->boolean
++ .indexOf(string)->int (-1 if not found)
+
+*So sánh string
+```java
+String s1 = "Cat";
+String s2 = "Cat";
+String  s3 = new String("Cat");
+System.out.println(s1 == s2);//true
+System.out.println(s2 == s3);//false
+System.out.println(s1.equals(s3));//true
+```
+![java-string-compare](./java-string-compare.png)
+
 
 https://www.hackerrank.com/challenges/java-strings-introduction/problem
 
@@ -200,6 +246,7 @@ string = "<h1>Nayeem loves counseling</h1>"
 --------------
 regex cho từ lặp lại: "\\b(\\w+)(\\W\\1)+\\b"
 ```
+
 ### 9. BigInteger, BigDecimal
 ```java
 String n= "999999999";
@@ -242,6 +289,10 @@ https://www.hackerrank.com/challenges/java-list/problem
 https://www.hackerrank.com/challenges/java-arraylist/problem
 
 https://www.hackerrank.com/challenges/java-bigdecimal/problem
+
+**Bạn có thể truy cập args trong ``public  static  void  main(String[] args)``
+- Khi chạy code bằng terminal: java <tên app> arg1 arg2
+- Các giá trị arg1, arg2 sẽ được đưa vào args = ["arg1", "arg2"]
 
 ### 11. Map
 ```java
