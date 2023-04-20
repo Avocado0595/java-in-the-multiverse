@@ -12,8 +12,11 @@ public class Solution {
 }
 ```
 Breakdown
+
 ```public class Solution```: khởi tạo class
+
 ```public static void main(String[] args)```: hàm luôn cần có để mọi chương trình chạy được - phần thân chính, sẽ được chạy thi chạy chương trình
+
 + public: khai báo phạm vi hàm - truy cập mọi nơi
 + static: hàm được gọi bởi chính class không cần thông qua instance
 + void: hàm thực thi không có giá trị trả về
@@ -216,7 +219,7 @@ lDateTime = LocalDateTime.parse("2017-12-05T11:30:30");
 // create a date time from zone
 LocalDateTime.now(ZoneId.systemDefault());
 ```
-
+--------------------
 ```java
 //Date <=> LocalDate
 Date date = Date.from(Instant.now());
@@ -226,7 +229,7 @@ LocalDate localDate = date.toInstant().atZone(defaultZoneId).toLocalDate();
 // LocalDate to Date
 Date.from(localDate.atStartOfDay(defaultZoneId).toInstant());
 ```
-
+-------------------
 ```java
 //Date <=> LocalDateTime
 Date date = Date.from(Instant.now());
@@ -251,8 +254,9 @@ String s2 = "Hello"+" "+"World";//s2 = Hello World
 String s3 = "\""; // s3 = "
 String s4 = "D:\\Document";//s4 = D:\Document
 ```
-
+----------------
 ***Các method của string**
+
 + .length() -> int
 + .substring(start,end) -> String
 + .toLowerCase(), .toUpperCase() -> String
@@ -260,8 +264,9 @@ String s4 = "D:\\Document";//s4 = D:\Document
 + .charAt(index) -> char
 + .contains(substring) ->boolean
 + .indexOf(string)->int (-1 if not found)
-
+----------------
 ***So sánh string**
+
 ```java
 String s1 = "Cat";
 String s2 = "Cat";
@@ -282,7 +287,7 @@ https://www.hackerrank.com/challenges/java-loops-i/problem
 https://www.hackerrank.com/challenges/java-string-reverse/problem
 
 https://www.hackerrank.com/challenges/java-anagrams/problem
-
+----------------
 + .split(string or regex) -> String[]
 ```java
 //Java regex pattern
@@ -321,7 +326,7 @@ string = "<h1>Nayeem loves counseling</h1>"
 --------------
 regex cho từ lặp lại: "\\b(\\w+)(\\W\\1)+\\b"
 ```
-
+----------------
 ***StringBuffer: có từ java 1, String có thể mutable - chỉnh sửa, và thread-safe (không thể nhiều thread cùng truy cập)**
 ```java
 String a = "hello";
@@ -332,14 +337,14 @@ StringBuffer b = new StringBuffer("hello");
 b.append("world");
 System.out.println(b);//helloworld
 ```
-
+----------------
 ***StringBuilder: 1 dạng nâng cấp của StringBuffer (có từ java 5), thread-unsafe**
 ```java
 StringBuilder b = new StringBuilder ("hello");
 b.append(" ").append("world");
 System.out.println();//hello world
 ```
-
+----------------
 ***Behind the scence của cộng string chính là append của StringBuilder**
 ```java
 String a = "a";
@@ -350,6 +355,7 @@ String s = a+b+c;//abc
 StringBuilder sb = new StringBuilder("a");
 String s = sb.append("b").append("c").toString();//abc
 ```
+----------------
 ### 9. BigInteger, BigDecimal
 ```java
 String n= "999999999";
@@ -359,6 +365,7 @@ BigInteger b = new BigInteger(m);
 a.add(b);//a+b
 a.multiply(b);//a*b
 ```
+----------------
 ###  10. Array
 ```java
 // init array
@@ -391,7 +398,7 @@ String[] newArray = Arrays.copyOf(originArray, newSize);
 int[] a = { 4, 1, 3, 2 };  
 int[] b = Arrays.copyOfRange(a, 0, a.length-1); // [4, 1, 3]
 ```
-
+----------------
 ### 11. Collections: List
 ```java
 //List init
@@ -449,7 +456,7 @@ https://www.hackerrank.com/challenges/java-list/problem
 https://www.hackerrank.com/challenges/java-arraylist/problem
 
 https://www.hackerrank.com/challenges/java-bigdecimal/problem
-
+----------------
 ***Bạn có thể truy cập args trong ``public  static  void  main(String[] args)``**
 - Khi chạy code bằng terminal: java <tên app> arg1 arg2
 - Các giá trị arg1, arg2 sẽ được đưa vào args = ["arg1", "arg2"]
@@ -472,7 +479,7 @@ for (Map.Entry<Integer, String> entry : names.entrySet()) {
 	System.out.println(entry.getValue());
 }
 ```
-
+----------------
 ### 13. Collections: Set
 ```java
 Set<String> setA = new HashSet<String>();
@@ -483,6 +490,7 @@ while (iterator.hasNext()) {
 	System.out.println((String) iterator.next());
 }
 ```
+----------------
 ### 14. Collections: Iterator, \<Generic>
 ```java
 List<String> fruits = new ArrayList<String>();
@@ -531,6 +539,7 @@ Collections.sort(users,UserComparator );
 Collections.sort(users, (l, r) -> l.username.compareTo(r.username));
 users.sort((l, r) -> l.username.compareTo(r.username));
 ```
+----------------
 ### 16. Dequeue
 ```java
 Deque dq = new ArrayDeque();
@@ -597,7 +606,9 @@ public  class  App  {
 ### 19. Thread
 Cho phép các class, hàm chạy song song.
 a) Cách tạo thread
+
 - Cách 1: extends Thread
+
 ```java
 //Thread1.java
 public class Thread1 extends Thread{
@@ -613,7 +624,9 @@ public class App  {
 	}
 }
 ```
+
 - Cách 2: implements Runnable
+
 ```java
 //Thread1.java
 public class Thread1 implements Runnable{
