@@ -133,7 +133,8 @@ https://www.hackerrank.com/challenges/java-loops-i/problem
 
 https://www.hackerrank.com/challenges/java-datatypes?isFullScreen=true
 
-*Type conversion
+-----------------
+***Type conversion**
 ```java
 byte a = 1;
 byte b=2;
@@ -143,7 +144,8 @@ int d = a+b; //byte + byte => int (not byte)
 int e = b+c; //byte + char =>int
 int g = c+f;// char + short => int
 ```
-*dùng uderscore (_) để tách số
+--------------
+***dùng uderscore (_) để tách số**
 ```java
 int a = 123456;
 int b=123_456;
@@ -158,16 +160,89 @@ float b=0;
 -1/b;//-Infinity
 ```
 ### 7. Date time & Currency
+***Lớp Calendar**
+
 ```java
 Calendar c = Calendar.getInstance();
 c.set();//set date
 c.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.UK);
 
-NumberFormat.getCurrencyInstance(Locale.US).format(vl
+NumberFormat usNumber = NumberFormat.getCurrencyInstance(Locale.US);
+String us = usNumber.format(payment);
 ```
 https://www.hackerrank.com/challenges/java-date-and-time/problem
 
 https://www.hackerrank.com/challenges/java-currency-formatter/problem
+
+----------------
+***java.sql.Date: để format ngày lưu vào database**
+```java
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+
+java.util.Date a = new java.util.Date();
+System.out.println(a);//Wed Apr 19 00:37:36 GMT 2023
+java.sql.Date b = new java.sql.Date(a.getTime());
+//a.getTime() => return miliseconds since January 1, 1970, 00:00:00 GTM
+System.out.println(b);//2023-04-19
+////////////////////////////
+DateFormat df = new SimpleDateFormat("dd/MM/YYYY - hh:mm:ss");
+//SimpleDateFormat kế thừa từ DateFormat
+System.out.println("dateFormated date is : " + df.format(a));
+//dateFormated date is : 19/04/2023 - 02:56:46
+```
+-------------
+**java.time.*;**
+```java
+// Create a default date
+LocalDate lDate = LocalDate.now();
+// Creates a date from values
+lDate = LocalDate.of(2017, 12, 15);
+// create a date from string
+lDate = LocalDate.parse("2017-12-15");
+// creates a date from zone
+LocalDate.now(ZoneId.systemDefault());
+```
+>Lớp  **ZoneId**  được sử dụng để định danh một múi giờ và cung cấp các quy tắc chuyển đổi giữa  **LocalDateTime**  và  **Instant**. Về mặt quy tắc độ lệch (offset rules),  **ZoneId**  được chia làm 2 loại:
+>1.  **ZoneId**  với độ lệch múi giờ (time zone offset) cố định, chẳng hạn  **"UTC+07", "GMT-05:40", "UT-03", "+05:50"**.[ ``ZoneId.of("GMT-06:05:20")``]
+>2.  **ZoneId**  với độ lệch múi giờ không cố định, chẳng hạn  **"Europe/Paris"**, độ lệch múi giờ của nó phụ thuộc vào thời điểm trên dòng thời gian hoặc phụ thuộc vào ngày trong năm. [``ZoneId.of("Europe/Paris")``]
+```java
+// Create a default date time
+LocalDateTime lDateTime = LocalDateTime.now();
+// Creates a date time from values
+lDateTime = LocalDateTime.of(2017, 12, 15, 11, 30);
+// create a date time from string
+lDateTime = LocalDateTime.parse("2017-12-05T11:30:30");
+// create a date time from zone
+LocalDateTime.now(ZoneId.systemDefault());
+```
+
+```java
+//Date <=> LocalDate
+Date date = Date.from(Instant.now());
+ZoneId defaultZoneId = ZoneId.systemDefault();
+// Date to LocalDate
+LocalDate localDate = date.toInstant().atZone(defaultZoneId).toLocalDate();
+// LocalDate to Date
+Date.from(localDate.atStartOfDay(defaultZoneId).toInstant());
+```
+
+```java
+//Date <=> LocalDateTime
+Date date = Date.from(Instant.now());
+ZoneId defaultZoneId = ZoneId.systemDefault();
+// Date to LocalDateTime
+LocalDateTime localDateTime = date.toInstant().atZone(defaultZoneId).toLocalDateTime();
+// LocalDateTime to Date
+Date out = Date.from(localDateTime.atZone(defaultZoneId).toInstant());
+```
+=> Conclusion: 
++ Lấy thứ ngày tháng: Calendar
++ Lấy ngày, giờ: Date, DateTime
++ Lấy ngày add vào db: sql.Date
++ Lấy ngày giờ theo vùng: LocalDate, LocalDateTime, LocalTime
+
+Tham khảo thêm: https://gpcoder.com/4062-date-time-trong-java-8/
 
 ### 8. String
 ```java
@@ -177,7 +252,7 @@ String s3 = "\""; // s3 = "
 String s4 = "D:\\Document";//s4 = D:\Document
 ```
 
-*Các method của string
+***Các method của string**
 + .length() -> int
 + .substring(start,end) -> String
 + .toLowerCase(), .toUpperCase() -> String
@@ -186,7 +261,7 @@ String s4 = "D:\\Document";//s4 = D:\Document
 + .contains(substring) ->boolean
 + .indexOf(string)->int (-1 if not found)
 
-*So sánh string
+***So sánh string**
 ```java
 String s1 = "Cat";
 String s2 = "Cat";
@@ -247,27 +322,99 @@ string = "<h1>Nayeem loves counseling</h1>"
 regex cho từ lặp lại: "\\b(\\w+)(\\W\\1)+\\b"
 ```
 
+***StringBuffer: có từ java 1, String có thể mutable - chỉnh sửa, và thread-safe (không thể nhiều thread cùng truy cập)**
+```java
+String a = "hello";
+a.concat("world");
+System.out.println(a);//hello
+
+StringBuffer b = new StringBuffer("hello");
+b.append("world");
+System.out.println(b);//helloworld
+```
+
+***StringBuilder: 1 dạng nâng cấp của StringBuffer (có từ java 5), thread-unsafe**
+```java
+StringBuilder b = new StringBuilder ("hello");
+b.append(" ").append("world");
+System.out.println();//hello world
+```
+
+***Behind the scence của cộng string chính là append của StringBuilder**
+```java
+String a = "a";
+String a = "b";
+String a = "c";
+String s = a+b+c;//abc
+///Cách java hoạt động
+StringBuilder sb = new StringBuilder("a");
+String s = sb.append("b").append("c").toString();//abc
+```
 ### 9. BigInteger, BigDecimal
 ```java
 String n= "999999999";
 String m= "8888888888";
 BigInteger a = new BigInteger(n);
 BigInteger b = new BigInteger(m);
-a.add(b);
-a.multiply(b);
+a.add(b);//a+b
+a.multiply(b);//a*b
 ```
 ###  10. Array
 ```java
-int[] a = new int[n]; //array 1D
-List<List<Integer>> arr = new ArrayList<>();//list 2D
+// init array
+int[] numbers1 = new int[3]; // Array for 3 int values, default value is 0  
+int[] numbers2 = { 1, 2, 3 }; // Array literal of 3 int values  
+int[] numbers3 = new int[] { 1, 2, 3 }; // Array of 3 int values initialized  
+int[][] numbers4 = { { 1, 2 }, { 3, 4, 5 } }; // Jagged array literal  
+int[][] numbers5 = new int[5][]; // Jagged array, one dimension 5 long  
+int[][] numbers6 = new int[5][4]; // Multidimensional array: 5x4
+int[] array4 = null;
+int array5[];/* equivalent to */ int[] array5;
+int a, b[], c[][]; /* equivalent to */ int a; int[] b; int[][] c;
+int[] a, b[];/* equivalent to */ int[] a; int[][] b;
+int a, []b, c[][]; /* Compilation Error, because [] is not part of the type at beginning of the declaration, rather it is before 'b'. */  
+// The same rules apply when declaring a method that returns an array:  
+int foo()[] { ... } /* equivalent to */ int[] foo() { ... }
+
+//Sort
+Arrays.sort(array);
+
+//print array
+for(int i=0; i<array.length; i++){
+	System.out.println(array[i]);
+}
+for (int e : array) {  //for read only
+System.out.println(e);  
+}
+//copy array from originArray, with size = newSize
+String[] newArray = Arrays.copyOf(originArray, newSize);
+int[] a = { 4, 1, 3, 2 };  
+int[] b = Arrays.copyOfRange(a, 0, a.length-1); // [4, 1, 3]
+```
+
+### 11. Collections: List
+```java
+//List init
+List a = new ArrayList();
+List b = new LinkedList();
+List c = new Vector(); 
+List d = new Stack();
+List<Integer> list=new ArrayList<Integer>(){{
+                        add(1);
+                        add(2);
+                        add(3);
+                          }};
+List<Integer> list=Arrays.asList(1, 2, 3);
+     
+List<String>[] list = new ArrayList<String>[2]; // Compilation error!
+List<List<String>> list = new ArrayList<ArrayList<String>>[];//list 2D
 /*các collections của java về sau nhưa List, ArrayList, Map,...
 đều tùng type là Wrapper Classes (chuyển type primitive sang object).
 Ví dụ: List<int> => error phải là List<Integer>
 Chỉ cần chuyển các type từ in thường sang in hoa chữ cái đầu là được
 */
-List là Interface, ArrayList implement List
+//List là Interface, ArrayList implement List
 //list method
-
 ArrayList<Integer> a = new ArrayList<>();//a=[]
 a.add(1);//a=[1]
 a.add(2);//a=[1,2]
@@ -277,7 +424,20 @@ System.out.println(a.get(1));//99
 a.size();//3
 a.remove(2);//[1,99]
 a.add(3);//[1,99,3]
+a.subList(0,1);//[1]
 Collections.sort(a);//[1,3,99]
+//duyệt list
+//Version < Java SE 5
+for (int i = 0; i < names.size(); i++) {
+	System.out.println(names.get(i));
+}
+//Version ≥ Java SE 5
+for (String name : names) {
+	System.out.println(name);
+}
+//Version ≥ Java SE 8
+names.forEach(System.out::println);
+//Dùng next(), hasNext() của Iterator (mục 14)
 ```
 
 ![java-collections](./Java-Collections-Framework-Hierarchy.png)
@@ -290,23 +450,30 @@ https://www.hackerrank.com/challenges/java-arraylist/problem
 
 https://www.hackerrank.com/challenges/java-bigdecimal/problem
 
-**Bạn có thể truy cập args trong ``public  static  void  main(String[] args)``
+***Bạn có thể truy cập args trong ``public  static  void  main(String[] args)``**
 - Khi chạy code bằng terminal: java <tên app> arg1 arg2
 - Các giá trị arg1, arg2 sẽ được đưa vào args = ["arg1", "arg2"]
 
-### 11. Map
+### 12. Collections: Map
 ```java
 Map<Integer,String> mymap = new HashMap<Integer,String>();
-Map là Interface, HashMap implement Map
+//Map là Interface, HashMap implement Map
 mymap.put(key, value);
 mymap.containsKey(key);
 mymap.get(key);
 mymap.remove(key);
-Set<Integer> set = map.keySet(); //get tất cả các key thành Set
-Set<Integer> set = map.entrySet();//get tất cả các key-value thành Set
+//get tất cả các key thành Set
+Set<Integer> set = map.keySet();
+//get tất cả các key-value thành Set
+Set<Integer> set = map.entrySet();
+//Iterator Map
+for (Map.Entry<Integer, String> entry : names.entrySet()) {
+	System.out.println(entry.getKey());
+	System.out.println(entry.getValue());
+}
 ```
 
-### 12. Set
+### 13. Collections: Set
 ```java
 Set<String> setA = new HashSet<String>();
 setA.add("string 1");
@@ -316,28 +483,55 @@ while (iterator.hasNext()) {
 	System.out.println((String) iterator.next());
 }
 ```
-### 13. Generic
+### 14. Collections: Iterator, \<Generic>
 ```java
+List<String> fruits = new ArrayList<String>();
+fruits.add("Apple");
+fruits.add("Banana");
+fruits.add("Strawberry");
+//chuyển List thành 1 Iterator 
+//.hasNext(): kiểm tra còn phần tử
+//.next(): duyệt đến phần tử tiếp theo
+//.add(value)
+//.set(index, value)
+Iterator<String> fruitIterator = fruits.iterator();
+while(fruitIterator.hasNext()) {
+	String fruit = fruitIterator.next();
+	System.out.println(fruit);
+	if ("Apple".equals(fruit)) {
+		fruitIterator.remove();
+	}
+}
+//chúng ta có thể implements Iterable để tạo ra Iterator riêng
+```
+----------
+
+```java
+//ArrayList<> phía sau ko cần điền type
+//nó sẽ lấy type lúc khai báo
+ArrayList<Integer> a = new ArrayList<>();//a=[]
+///
 public  static  <T>  void  printArray(T[]  arr){
 	for(T  a:arr){
 		System.out.println(a);
 		}
 }
+/// <?> để chỉ kiểu bất kỳ có thể extend thêm vào
 ```
-### 14. Comparator
+### 15. Comparator: để truyền vào làm so sánh trong sort
 ```java
-class  Checker  implements  Comparator<Player>  {
+class  UserComparator implements  Comparator<User>  {
 	@Override
-	public  int  compare(Player  p1,  Player  p2)  {
-		if(p2.score  ==  p1.score){
-			return  p1.name.compareTo(p2.name);
-		}
-		return  p2.score-p1.score;
-		}
+	public  int  compare(User u1,  User  u2)  {
+		return u1.username.compareTo(u2.username);
 	}
 }
+Collections.sort(users,UserComparator );
+//Version ≥ Java SE 8
+Collections.sort(users, (l, r) -> l.username.compareTo(r.username));
+users.sort((l, r) -> l.username.compareTo(r.username));
 ```
-### 15. Dequeue
+### 16. Dequeue
 ```java
 Deque dq = new ArrayDeque();
 qd.add(value);
@@ -346,7 +540,7 @@ dq.removeLast();
 dq.peekFirst();
 dq.removeLast();
 ```
-### 16. Exception
+### 17. Exception
 ```java
 Scanner  scan  =  new  Scanner(System.in);
 try{
@@ -363,7 +557,7 @@ https://www.hackerrank.com/challenges/java-exception-handling-try-catch
 
 https://www.hackerrank.com/challenges/java-exception-handling/problem
 
-### 17. File
+### 18. File
 ```java
 import  java.io.File;  // Import the File class
 import  java.io.FileWriter;//Write to file
@@ -400,7 +594,7 @@ public  class  App  {
 }
 ```
 
-### 18. Thread
+### 19. Thread
 Cho phép các class, hàm chạy song song.
 a) Cách tạo thread
 - Cách 1: extends Thread
