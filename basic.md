@@ -53,6 +53,7 @@ nextInt()
 nextLine()
 nextLong()
 nextShort()
+next() //lấy giá trị cho đến khi gặp space, tab, enter.
 + Nếu input sai kiểu thì sẽ báo lỗi "InputMismatchException"
 + nextLine() sẽ nhận tất cả những gì nhập cho đến khi gặp Enter
 + sau nextInt() hoặc các method khác nextLine(),
@@ -95,6 +96,7 @@ https://www.hackerrank.com/challenges/java-if-else/problem?isFullScreen=true
 System.out.printf("%-10s%0d%n", str, x);
 //%s: str is a string
 //%-10s: string + 10 spaces bên phải
+//%10s: string + 10 spaces bên trái
 //%d: x is a number
 //%03d: thêm 0 cho đủ 5 ký tự, vd: 3 => 00003
 //%n: \n =  xuống dòng
@@ -154,7 +156,7 @@ int a = 123456;
 int b=123_456;
 //a===b => true
 ```
-* chia cho 0
+***chia cho 0**
 ```java
 int a = 0;
 float b=0;
@@ -364,6 +366,8 @@ BigInteger a = new BigInteger(n);
 BigInteger b = new BigInteger(m);
 a.add(b);//a+b
 a.multiply(b);//a*b
+String k= "8888883333888.3338"
+BigDecimal c = new BigDecimal(k);
 ```
 ----------------
 ###  10. Array
@@ -379,7 +383,9 @@ int[] array4 = null;
 int array5[];/* equivalent to */ int[] array5;
 int a, b[], c[][]; /* equivalent to */ int a; int[] b; int[][] c;
 int[] a, b[];/* equivalent to */ int[] a; int[][] b;
-int a, []b, c[][]; /* Compilation Error, because [] is not part of the type at beginning of the declaration, rather it is before 'b'. */  
+int a, []b, c[][]; /* Compilation Error,
+because [] is not part of the type at beginning of the declaration,
+rather it is before 'b'. */  
 // The same rules apply when declaring a method that returns an array:  
 int foo()[] { ... } /* equivalent to */ int[] foo() { ... }
 
@@ -456,12 +462,14 @@ https://www.hackerrank.com/challenges/java-list/problem
 https://www.hackerrank.com/challenges/java-arraylist/problem
 
 https://www.hackerrank.com/challenges/java-bigdecimal/problem
+
 ----------------
 ***Bạn có thể truy cập args trong ``public  static  void  main(String[] args)``**
 - Khi chạy code bằng terminal: java <tên app> arg1 arg2
 - Các giá trị arg1, arg2 sẽ được đưa vào args = ["arg1", "arg2"]
 
 ### 12. Collections: Map
+
 ```java
 Map<Integer,String> mymap = new HashMap<Integer,String>();
 //Map là Interface, HashMap implement Map
