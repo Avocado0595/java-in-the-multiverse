@@ -605,6 +605,7 @@ public  class  App  {
 
 ### 19. Thread
 Cho phép các class, hàm chạy song song.
+
 a) Cách tạo thread
 
 - Cách 1: extends Thread
