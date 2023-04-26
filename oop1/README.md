@@ -20,6 +20,12 @@ c) Vẽ UML
 
 ![fraction-uml](./fraction-uml.png)
 
+*Giải thích sơ đồ:
+- Dấu trừ (-): private
+- Dấu cộng (+): public
+- ``numerator:int`` : tên property:kiểu dữ liệu
+- ``sub(Fraction):Fraction``: tên hàm(kiểu tham số):kiểu trả về
+
 ## 2. OOP basic 1 - class và object 
 - class: một kiểu dữ liệu - một dạng định nghĩa cấu trúc, do người dùng tự định nghĩa
 
@@ -30,7 +36,7 @@ c) Vẽ UML
 |constructor - hàm khởi tạo|``public Fraction(){}``|khởi tạo giá trị ban đầu, hàm sẽ được gọi khi tạo 1 instance mới ``Fraction f1 = new Fraction();``|
 |this|``this.numerator``|truy cập đến chính bản thân class|
 
-- Phạm vi truy cập -  Access Modifiers
+- Phạm vi truy cập - Access Modifiers
 
 |access modifier|trong class|chung package|ngoài package - trong subclass|ngoài package|
 |--|--|--|--|--|
