@@ -1,6 +1,0 @@
-*/bin/
-*.class
-/private
-.vscode/
-*/vscode/
-*/*.class
