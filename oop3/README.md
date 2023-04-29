@@ -1,4 +1,18 @@
 a) Yêu cầu
+Viết 1 chương trình pha chế đồ uống với các yêu cầu sau:
+- Có 2 loại đồ uống Coffee và Tea
+- Mỗi loại đồ uống có cách pha chế khác nhau,mô phỏng bằng hàm makeBeverage(), gồm 3 bước: 
+  - thêm đồ uống: addBeverage(beverage)
+  - thêm topping: addCondiments(condiment)
+  - phục vụ: serveBeverage()
+
+b) Phân tích
+- Với 2 loại đồ uống => có 2 class tương ứng: CoffeeMaker, TeaMaker
+- các phương thức chung với nhau nên sẽ cần 1 class abstract, còn có 1 prop lưu list condiment.
+- method makeBeverage() dùng chung, các method addBeverage(), addCondiments(), serveBeverage() sẽ được override lại theo từng class con.
+- 
+
+
 
 > Tạo chương trình pha chế đồ uống bằng  Template. Chương trình nên có các lớp sau:
 > 

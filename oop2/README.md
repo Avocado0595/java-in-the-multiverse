@@ -1,5 +1,5 @@
 ## 1. Bài tập mở đầu
->Thiết kế chương trình theo sơ đồ dưới đây
+>Viết chương trình theo sơ đồ dưới đây
 ![shape UML](./shape-uml.png)
 
 *Giải thích sơ đồ
