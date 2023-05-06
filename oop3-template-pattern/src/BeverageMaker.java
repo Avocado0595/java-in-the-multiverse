@@ -9,10 +9,10 @@ public abstract class BeverageMaker {
     public void makeBeverage() {
         this.addBeverage();
         this.addCondiments();
-        this.getready();
+        this.serveBeverage();
     }
 
-    public void getready() {
+    public void serveBeverage() {
         System.out.println(this.beverage);
         System.out.print("Your condiments: ");
         for (String i : condiments) {

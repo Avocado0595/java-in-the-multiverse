@@ -1,6 +1,7 @@
 ## 1. Bài tập mở đầu
 >Viết chương trình theo sơ đồ dưới đây
 ![shape UML](./shape-uml.png)
+*đề bài từ Mr Mundo*
 
 *Giải thích sơ đồ
 - ``<<abstract>>``: ghi chú abstract class

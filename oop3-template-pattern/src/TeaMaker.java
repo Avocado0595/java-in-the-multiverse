@@ -1,19 +1,21 @@
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class CoffeeMaker extends BeverageMaker {
-    public CoffeeMaker() {
+public class TeaMaker extends BeverageMaker {
+    public TeaMaker() {
         this.condiments = new ArrayList<String>();
     }
 
     @Override
     public void addBeverage() {
-        this.beverage = "coffee";
+        this.beverage = "tea";
+        System.out.println("making tea...");
     }
 
     @Override
     public void addCondiments() {
         while (true) {
+            System.out.println("Enter condiment's name.");
             System.out.println("Press 0 to stop!");
             Scanner sc = new Scanner(System.in);
             String c = sc.nextLine();
