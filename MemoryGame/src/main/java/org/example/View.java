@@ -5,7 +5,6 @@ import java.awt.*;
 
 public class View  {
     final int SIZE = 4;
-    //button grid
     private JButton btn[][] = new JButton[SIZE][SIZE];
     private JPanel gamePanel;
     private JLabel lbStatus;
@@ -37,7 +36,6 @@ public class View  {
                 btn[i][j].setName(k+"");
                 btn[i][j].setBackground(Color.CYAN);
                 btn[i][j].setActionCommand(i + "," + j);
-                //btn[i][j].addActionListener(controller);
                 gamePanel.add(btn[i][j]);
             }
         }
@@ -74,8 +72,5 @@ public class View  {
         f.add(cancelBtn);
         //set frame visible
         f.setLayout(null);
-       // f.setVisible(true);
     }
-
-
 }

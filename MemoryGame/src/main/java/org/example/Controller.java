@@ -12,17 +12,11 @@ import static javax.swing.JOptionPane.showOptionDialog;
 
 public class Controller implements ActionListener {
     final int STEP_SCORE =10;
-    private int maxScore;
-
-    private JLabel scoreLb;
     private String[][] data;
-
-    private JFrame frame;
     private int[] firstSelection;
     private int[] secondSelection;
     private int score;
-
-
+    private int maxScore;
     private View view;
     private Model model;
     public Controller(View view, Model model, int score){
@@ -30,15 +24,10 @@ public class Controller implements ActionListener {
         this.model = model;
         this.score = score;
         initController();
-//        this.btn =btn;
         this.data = this.getRandomData(model.getData(), view.getBtn().length);
-//        this.rawData = data;
         this.firstSelection=new int[]{-1,-1};
         this.secondSelection=new int[]{-1,-1};
-//        this.score =0;
-//        this.scoreLb=scoreLb;
-//        this.frame=frame;
-//        this.maxScore = STEP_SCORE*btn.length;
+        this.maxScore = STEP_SCORE*view.getBtn().length*2;
     }
 
     private void addAction(){
@@ -46,12 +35,12 @@ public class Controller implements ActionListener {
             for (int j = 0; j < view.getBtn().length; j++) {
                 view.getBtn()[i][j].addActionListener(this);
             }
-
         }
         view.getBtnCancel().addActionListener(this);
     }
     public void initController(){
         addAction();
+        this.view.getLbScore().setText("Bạn được "+score+" điểm");
         view.getF().setVisible(true);
     }
     private void selectBtn(JButton bt, String data){
@@ -61,6 +50,18 @@ public class Controller implements ActionListener {
     private void disSelectBtn(JButton bt){
         bt.setBackground(Color.CYAN);
         bt.setText(bt.getName());
+    }
+    private void showOption(){
+        int option = showOptionDialog(this.view.getF(),"You win!\nMuốn tiếp tục không?","Thông báo nè!",
+                JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE, null,null,null);
+        if(option == JOptionPane.NO_OPTION) {
+            this.view.getF().dispose();
+            return;
+        }
+        else{
+            new Controller(new View(), new Model(), this.score);
+            this.view.getF().dispose();
+        }
     }
 
     @Override
@@ -72,16 +73,7 @@ public class Controller implements ActionListener {
 
         //dừng chương trình
         if(e.getActionCommand() == "cancel"){
-            int option = showOptionDialog(this.frame,"You win!\nMuốn tiếp tục không?","Thông báo nè!",
-                    JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE, null,null,null);
-            if(option == JOptionPane.NO_OPTION) {
-                this.view.getF().dispose();
-                return;
-            }
-            else{
-                new Controller(new View(), new Model(), this.score);
-                this.view.getF().dispose();
-            }
+            showOption();
             return;
         }
         //lấy event
@@ -118,18 +110,7 @@ public class Controller implements ActionListener {
                 score+=STEP_SCORE;
                 this.view.getLbScore().setText("Bạn được "+score+" điểm");
                 if(score == this.maxScore){
-                    int option = showOptionDialog(this.frame,"You win!\nMuốn tiếp tục không?","Thông báo nè!",
-                            JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE, null,null,null);
-                    if(option == JOptionPane.NO_OPTION) {
-                        this.view.getF().dispose();
-                        return;
-                    }
-                    else{
-
-                        new Controller(new View(), new Model(), this.score);
-
-                        this.view.getF().dispose();
-                    }
+                    showOption();
                 }
 
                 return;
