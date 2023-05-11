@@ -3,3 +3,5 @@ bin/
 /private
 .vscode/
 out
+*.properties
+target
