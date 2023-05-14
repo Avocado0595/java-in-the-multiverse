@@ -51,4 +51,20 @@ public class Fraction {
         int gcd = MyMath.GCD(this.numerator, this.dominator);
         return new Fraction(this.numerator / gcd, this.dominator / gcd);
     }
+
+    public Fraction op(String op, Fraction f) throws Exception {
+        switch (op) {
+            case "+":
+                return this.add(f);
+            case "-":
+                return this.sub(f);
+            case "*":
+                return this.mul(f);
+            case "/":
+                return this.div(f);
+            default:
+                throw new Exception("Invalid op");
+
+        }
+    }
 }
