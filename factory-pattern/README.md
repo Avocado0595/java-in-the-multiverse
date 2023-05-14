@@ -1,30 +1,123 @@
-Một trang web cung cấp dịch vụ nghe nhạc số tổ chức quản lý thông tin về các bản nhạc số như sau để phục vụ hiệu quả cho các yêu cầu tìm kiếm và truy xuất khác nhau:
+*tài liệu tham khảo từ sách **HEAD FIRST DESIGN PATTERN***
 
-Các bản nhạc số được tổ chức thành các album.
++ Mô phỏng 1 qui trình làm bánh pizza (prepare - bake - cut -box) với đoạn code
+```java
+public class PizzaStore {
+    Pizza orderPizza() {
+        Pizza pizza = new Pizza();
+        pizza.prepare();
+        pizza.bake();
+        pizza.cut();
+        pizza.box();
+        return pizza;
+    }
+}
+```
++ Nếu có nhiều loại pizza thì phải điều chỉnh code
+```java
+public class PizzaStore {
+    Pizza orderPizza(String type) {
+        Pizza pizza;
+        if (type.equals("cheese")) {
+            pizza = new CheesePizza();
+        } else if (type.equals("greek")) {
+            pizza = new GreekPizza();
+        } else if (type.equals("pepperoni")) {
+            pizza = new PepperoniPizza();
+        }
+        pizza.prepare();
+        pizza.bake();
+        pizza.cut();
+        pizza.box();
+        return pizza;
+    }
+}
+```
++ Nếu hệ thống mở rộng thêm nhiều loại pizza nữa thì code trên phải được bổ sung thêm
+```java
+public class PizzaStore {
+    Pizza orderPizza(String type) {
+        Pizza pizza;
+        if (type.equals("cheese")) {
+            pizza = new CheesePizza();
+        } else if (type.equals("greek")) {
+            pizza = new GreekPizza();
+        } else if (type.equals("pepperoni")) {
+            pizza = new PepperoniPizza();
+            // phần được mở rộng
+        } else if (type.equals("clam")) {
+            pizza = new ClamPizza();
+        } else if (type.equals("veggie")) {
+            pizza = new VeggiePizza();
+        }
+        pizza.prepare();
+        pizza.bake();
+        pizza.cut();
+        pizza.box();
+        return pizza;
+    }
+}
+```
++ Code được chỉnh sửa như thế đã vi phạm nguyên tắt "O" trong "SOLID": open for extension - close for modification.
++ Để khắc phục vấn đề này, cần tách phần if-else ra => 1 class gọi là Factory => nơi tạo ra các class khác nhau.
+```java
+public class SimplePizzaFactory {
+    public Pizza createPizza(String type) {
+    Pizza pizza = null;
+    if (type.equals("cheese")) {
+        pizza = new CheesePizza();
+    } else if (type.equals("pepperoni")) {
+        pizza = new PepperoniPizza();
+    } else if (type.equals("clam")) {
+        pizza = new ClamPizza();
+    } else if (type.equals("veggie")) {
+        pizza = new VeggiePizza();
+    }
+    return pizza;
+    }
+}
+```
++ Từ đây, phía client sẽ order pizza thông qua SimplePizzaFactory
+```java
+public class PizzaStore {
+    SimplePizzaFactory factory;
 
-Thông tin album gồm có tựa, ngày phát hành, hãng phát hành.
+    public PizzaStore(SimplePizzaFactory factory) {
+        this.factory = factory;
+    }
 
-Có 2 loại album: album của một ca sĩ hay một nhóm nhạc, và  album tổng hợp.
+    public Pizza orderPizza(String type) {
+        Pizza pizza;
+        pizza = factory.createPizza(type);
+        pizza.prepare();
+        pizza.bake();
+        pizza.cut();
+        pizza.box();
+        return pizza;
+    }
+    // other methods here
+}
+```
++ Chúng ta có UML sơ lược như sau:
 
-Mỗi album có một danh mục các bản nhạc ghi kèm ca sĩ hát bài hát đó. 
+![UML](./pizza-uml.png)
 
-Thông tin về các bản nhạc số cần lưu trữ bao gồm tựa bài hát, nhạc sĩ sáng tác, thể loại, đường dẫn đến tập tin nhạc số, số lần truy cập. 
++ Với mục đích mở rộng thị trường, 
+tiệm pizza cho mở nhiều chi nhánh ở nhiều nơi,
+tuy nhiên mỗi vùng miền lại có 1 khẩu vị và đặc trưng riêng trong chế biến
+với quy trình vẫn giữ nguyên, chỉ thay đổi bên trong đề phù hợp.
++ Chúng ta chỉ cần tạo thêm các class extends Pizza tương ứng và các Factory với mỗi nơi.
 
-Thông tin về một nghệ sĩ (nhạc sĩ hoặc ca sĩ) bao gồm tên, nếu là nhạc sĩ thì chứa thêm danh sách các bài hát mà nhạc sĩ đó sáng tác.
+```java
+    NYPizzaFactory nyFactory = new NYPizzaFactory();
+    PizzaStore nyStore = new PizzaStore(nyFactory);
+    nyStore.order(“Veggie”);
 
-Website phải cho phép tìm kiếm nhanh chóng các bài hát theo ca sĩ, nhạc sĩ, thể loại…
-Yêu cầu:
+    ChicagoPizzaFactory chicagoFactory = new ChicagoPizzaFactory();
+    PizzaStore chicagoStore = new PizzaStore(chicagoFactory);
+    chicagoStore.order(“Veggie”);
+```
++ Lúc này chúng ta thấy rằng tất cả mọi nơi đều dùng chung PizzaStore, để code linh hoạt hơn chúng ta sẽ tạo ra những Store riêng
++ Chúng ta có UML sơ lược như sau:
 
-Câu 1: Hãy nhận diện, thiết kế và cài đặt các lớp để biểu diễn các dữ liệu của hệ thống và các thuộc tính cần thiết cho từng lớp. Xác định quan hệ tiềm năng giữa các lớp đối tượng.
-
-Câu 2: 
-
-a)    Hãy cài đặt các thao tác sau:
-+ Tìm kiếm bản nhạc số theo tên ca sĩ thể hiện, tên nhạc sĩ sáng tác, theo thể loại. 
-+ Liệt kê danh sách 10 bản nhạc đươc truy cập nhiều nhất. 
-
-b)    Tạo dữ liệu test cho hệ thống bao gồm một danh sách các album và các bài hát, danh sách các ca sĩ và nhạc sĩ. 
-
-c)    In danh sách các bài hát theo các tiêu chí tìm kiếm như ở câu a).
-
-Dùng Factory
+![UML](./pizza-uml-2.png)
