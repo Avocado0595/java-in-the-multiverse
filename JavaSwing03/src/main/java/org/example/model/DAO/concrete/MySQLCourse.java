@@ -3,8 +3,10 @@ package org.example.model.DAO.concrete;
 import org.example.model.DAO.daoFactory.DaoFactory;
 import org.example.model.DAO.interfaces.CourseDAO;
 import org.example.model.Course;
+import org.example.model.RegistedCourse;
 
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,19 +25,22 @@ public class MySQLCourse implements CourseDAO {
     private static final String
             UPDATE = "UPDATE course SET name=?, description=? WHERE id=?";
     private static final String
-            FIND_BY_STUDENT_ID = "SELECT course.* FROM course INNER JOIN enrollments ON course.id = enrollments.course_id WHERE enrollments.student_id=?";
+            FIND_BY_STUDENT_ID = "SELECT course.*, enrollments.enrollment_date as enrollment_date FROM course INNER JOIN enrollments ON course.id = enrollments.course_id WHERE enrollments.student_id=?";
+    private static final String
+            FIND_NOT_REGIS_COURSE = "select * from course where id not in (select course_id from enrollments where student_id = ?);";
     @Override
-    public Course insert(Course student) throws SQLException {
+    public Course insert(Course course) throws SQLException {
+        if(course == null ||course.getId()!=-1)
+            return null;
         Connection c = DaoFactory.getDatabase().openConnection();
         PreparedStatement pstmt = c.prepareStatement(INSERT, PreparedStatement.RETURN_GENERATED_KEYS);
-        pstmt.setString(1, student.getName());
-        pstmt.setString(2, student.getDescription());
+        pstmt.setString(1, course.getName());
+        pstmt.setString(2, course.getDescription());
         pstmt.executeUpdate();
         pstmt.close();
-        System.out.println(pstmt);
         c.close();
 
-        return student;
+        return course;
     }
     @Override
     public List<Course> getAll() throws SQLException {
@@ -101,10 +106,47 @@ public class MySQLCourse implements CourseDAO {
         return result;
     }
 
+    public List<RegistedCourse> findRegistedByStudentId(int studentId) throws SQLException {
+        List<RegistedCourse> courseList = new ArrayList<>();
+        Connection con = DaoFactory.getDatabase().openConnection();
+        PreparedStatement pstmt = con.prepareStatement(FIND_BY_STUDENT_ID, PreparedStatement.RETURN_GENERATED_KEYS);
+        pstmt.setInt(1, studentId);
+
+        ResultSet result = pstmt.executeQuery();
+        while(result.next()){
+            int sid = result.getInt("id");
+            String name = result.getString("name");
+            String description =  result.getString("description");
+            LocalDate enrollmentDate = result.getDate("enrollment_date").toLocalDate();
+            courseList.add(new RegistedCourse(sid, name, description, enrollmentDate));
+        }
+        pstmt.close();
+        result.close();
+
+        return courseList;
+    }
     public List<Course> findByStudentId(int studentId) throws SQLException {
         List<Course> courseList = new ArrayList<>();
         Connection con = DaoFactory.getDatabase().openConnection();
         PreparedStatement pstmt = con.prepareStatement(FIND_BY_STUDENT_ID, PreparedStatement.RETURN_GENERATED_KEYS);
+        pstmt.setInt(1, studentId);
+
+        ResultSet result = pstmt.executeQuery();
+        while(result.next()){
+            int sid = result.getInt("id");
+            String name = result.getString("name");
+            String description =  result.getString("description");
+            courseList.add(new Course(sid, name, description));
+        }
+        pstmt.close();
+        result.close();
+
+        return courseList;
+    }
+    public List<Course> findNotRegisCourse(int studentId) throws SQLException {
+        List<Course> courseList = new ArrayList<>();
+        Connection con = DaoFactory.getDatabase().openConnection();
+        PreparedStatement pstmt = con.prepareStatement(FIND_NOT_REGIS_COURSE, PreparedStatement.RETURN_GENERATED_KEYS);
         pstmt.setInt(1, studentId);
 
         ResultSet result = pstmt.executeQuery();

@@ -1,18 +1,19 @@
 package org.example.model.TableModel;
 
 import org.example.model.Course;
+import org.example.model.RegistedCourse;
 
 import javax.swing.table.AbstractTableModel;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CourseTableModel extends AbstractTableModel {
-    private String[] columnNames = new String[] { "ID", "NAME", "DESCRIPTION"};
-    private List<Course> courseList;
-    public CourseTableModel(){
+public class RegistedCourseTableModel extends AbstractTableModel {
+    private String[] columnNames = new String[] { "ID", "NAME", "DESCRIPTION", "ENROLLMENT DATE"};
+    private List<RegistedCourse> courseList;
+    public RegistedCourseTableModel(){
         courseList = new ArrayList<>();
     }
-    public void setData(List<Course> courseList){
+    public void setData(List<RegistedCourse> courseList){
         this.courseList = courseList;
         fireTableDataChanged();
     }
@@ -40,6 +41,8 @@ public class CourseTableModel extends AbstractTableModel {
                 return courseList.get(rowIndex).getName();
             case 2:
                 return courseList.get(rowIndex).getDescription();
+            case 3:
+                return courseList.get(rowIndex).getEnrollDate();
             default:
                 return null;
         }

@@ -7,8 +7,17 @@ import javax.swing.*;
 
 public class MainView extends JFrame {
     private JTabbedPane jTabbedPane1;
-    private JPanel pnstudent;
-    private JPanel pncourse;
+
+    public StudentView getPnstudent() {
+        return pnstudent;
+    }
+
+    public CourseView getPncourse() {
+        return pncourse;
+    }
+
+    private StudentView pnstudent;
+    private CourseView pncourse;
     public MainView(StudentView pnstudent, CourseView pncourse){
         this.pnstudent = pnstudent;
         this.pncourse = pncourse;

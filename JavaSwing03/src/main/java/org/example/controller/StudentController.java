@@ -1,22 +1,32 @@
 package org.example.controller;
 
+import org.example.Main;
+import org.example.model.DAO.concrete.MySQLEnrollments;
 import org.example.model.DAO.concrete.MySQLStudent;
 import org.example.model.DAO.interfaces.StudentDAO;
+import org.example.model.Enrollments;
 import org.example.model.Student;
+import org.example.view.MainView;
 import org.example.view.Student.StudentView;
 
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.sql.SQLException;
 
 public class StudentController {
     private StudentDAO studentDAO;
     private StudentView studentView;
-    public StudentController(StudentView studentView){
+    private MainView mainView;
+    private MySQLEnrollments mySQLEnrollments;
+    public StudentController(StudentView studentView, MainView mainView){
         this.studentDAO = new MySQLStudent();
+        this.mySQLEnrollments = new MySQLEnrollments();
         this.studentView = studentView;
+        this.mainView = mainView;
         showStudentList();
         initAction();
 
@@ -34,6 +44,7 @@ private void showStudentList(){
             @Override
             public void valueChanged(ListSelectionEvent e) {
                 studentView.fillSelectTable();
+                studentView.setEnableCourseBtn(false);
             }
         });
 
@@ -65,6 +76,7 @@ private void showStudentList(){
                 try {
                     studentDAO.delete(student);
                     showStudentList();
+                    studentView.resetTextfield();
                 } catch (SQLException ex) {
                     throw new RuntimeException(ex);
                 }
@@ -76,7 +88,8 @@ private void showStudentList(){
                 if(studentView.isCreatingNew())
                     return;
                 studentView.enableTextfield(true);
-                studentView.setEnableSaveBtn(true);
+
+                studentView.setEnableCourseBtn(true);
             }
         });
         studentView.addClickSave(new ActionListener() {
@@ -86,8 +99,43 @@ private void showStudentList(){
                 try {
                     studentDAO.update(student);
                     showStudentList();
-                    studentView.setEnableSaveBtn(false);
                     studentView.enableTextfield(false);
+                    studentView.setEnableCourseBtn(false);
+                } catch (SQLException ex) {
+                    throw new RuntimeException(ex);
+                }
+            }
+        });
+        studentView.addClickAddCourse(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                studentView.showCourseList(mainView, false);
+            }
+        });
+        studentView.addClickDeleteCourse(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                studentView.showCourseList(mainView, true);
+            }
+        });
+        studentView.addClickDeleteACourse(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    mySQLEnrollments.deleteByStudentAndCourseId(studentView.getSelectedCourseId().getStudentId(),studentView.getSelectedCourseId().getCourseId());
+                    studentView.fillSelectTable();
+                } catch (SQLException ex) {
+                    throw new RuntimeException(ex);
+                }
+            }
+        });
+        studentView.addClickAddACourse(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    mySQLEnrollments.insert(studentView.getSelectedCourseId());
+                    studentView.setEnableCourseBtn(false);
+                    studentView.fillSelectTable();
                 } catch (SQLException ex) {
                     throw new RuntimeException(ex);
                 }

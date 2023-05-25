@@ -49,4 +49,8 @@ public class Enrollments {
         this.courseId = courseId;
         this.enrollmentDate = enrollmentDate;
     }
+    @Override
+    public String toString(){
+        return this.getId()+"-"+this.getStudentId()+"-"+this.getCourseId()+"-"+this.getEnrollmentDate();
+    }
 }

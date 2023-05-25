@@ -24,7 +24,8 @@ public class MySQLStudent implements StudentDAO {
 
     private static final String
             FIND_BY_ID = "SELECT * FROM student WHERE id = ?";
-
+private static final String
+    DELETE_ENROLMENTS = "DELETE FROM enrollments where student_id=?";
     private static final String
             DELETE = "DELETE FROM student where id = ?";
     private static final String
@@ -74,6 +75,12 @@ public class MySQLStudent implements StudentDAO {
         if(student==null)
             return -1;
         Connection c = DaoFactory.getDatabase().openConnection();
+
+        PreparedStatement pstmt0 = c.prepareStatement(DELETE_ENROLMENTS, PreparedStatement.RETURN_GENERATED_KEYS);
+        pstmt0.setInt(1, student.getId());
+        pstmt0.executeUpdate();
+        pstmt0.close();
+
         PreparedStatement pstmt = c.prepareStatement(DELETE, PreparedStatement.RETURN_GENERATED_KEYS);
         pstmt.setInt(1, student.getId());
 
@@ -87,6 +94,8 @@ public class MySQLStudent implements StudentDAO {
     public Student findById(int id) throws SQLException {
         Student s = null;
         Connection con = DaoFactory.getDatabase().openConnection();
+
+
         PreparedStatement pstmt = con.prepareStatement(FIND_BY_ID, PreparedStatement.RETURN_GENERATED_KEYS);
         pstmt.setInt(1, id);
 
@@ -99,6 +108,7 @@ public class MySQLStudent implements StudentDAO {
             LocalDate dob = result.getDate("dob").toLocalDate();
             s = new Student(sid, name, email, phone, dob);
         }
+
         pstmt.close();
         result.close();
 

@@ -12,7 +12,7 @@ import java.util.List;
 
 public class MySQLEnrollments implements EnrollmentsDAO {
     private static final String
-            INSERT = "INSERT INTO enrollments (enrollments_id, course_id,enrollment_date) VALUES (?, ?, ?)";
+            INSERT = "INSERT INTO enrollments (student_id, course_id,enrollment_date) VALUES (?, ?, ?)";
 
     private static final String
             GETALL = "SELECT * FROM enrollments";
@@ -27,21 +27,24 @@ public class MySQLEnrollments implements EnrollmentsDAO {
     private static final String
             DELETE = "DELETE FROM enrollments where id = ?";
     private static final String
+            DELETE_BY_STUDENT_COURSE = "DELETE FROM enrollments where student_id = ? and course_id=?";
+    private static final String
+            FIND_BY_STUDENT_COURSE = "select * FROM enrollments where student_id = ? and course_id=?";
+    private static final String
             UPDATE = "UPDATE enrollments SET enrollments_id=?, course_id=? WHERE id=?";
     @Override
     public Enrollments insert(Enrollments enrollments) throws SQLException {
+        if(findByStudentAndCourseId(enrollments.getStudentId(), enrollments.getCourseId())!=null)
+            return null;
         Connection c = DaoFactory.getDatabase().openConnection();
 
         PreparedStatement pstmt = c.prepareStatement(INSERT, PreparedStatement.RETURN_GENERATED_KEYS);
 
         pstmt.setInt(1, enrollments.getStudentId());
         pstmt.setInt(2, enrollments.getCourseId());
-        pstmt.setString(4, enrollments.getEnrollmentDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
-
+        pstmt.setString(3, enrollments.getEnrollmentDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
         pstmt.executeUpdate();
-
         pstmt.close();
-        System.out.println(pstmt);
         c.close();
 
         return enrollments;
@@ -76,6 +79,40 @@ public class MySQLEnrollments implements EnrollmentsDAO {
 
         return result;
     }
+
+    @Override
+    public int deleteByStudentAndCourseId(int studentId, int courseId) throws SQLException {
+        Connection c = DaoFactory.getDatabase().openConnection();
+        PreparedStatement pstmt = c.prepareStatement(DELETE_BY_STUDENT_COURSE, PreparedStatement.RETURN_GENERATED_KEYS);
+        pstmt.setInt(1, studentId);
+        pstmt.setInt(2, courseId);
+
+        int result = pstmt.executeUpdate();
+        pstmt.close();
+        c.close();
+
+        return result;
+    }
+    @Override
+    public Enrollments findByStudentAndCourseId(int studentId, int courseId) throws SQLException {
+        Connection c = DaoFactory.getDatabase().openConnection();
+        PreparedStatement pstmt = c.prepareStatement(FIND_BY_STUDENT_COURSE, PreparedStatement.RETURN_GENERATED_KEYS);
+        pstmt.setInt(1, studentId);
+        pstmt.setInt(2, courseId);
+
+        ResultSet results = pstmt.executeQuery();
+        Enrollments result = null;
+        while(results.next()){
+            int sid = results.getInt("id");
+            LocalDate enrollmentDate = results.getDate("enrollment_date").toLocalDate();
+            result = new Enrollments(sid, studentId, courseId, enrollmentDate);
+        }
+        pstmt.close();
+        c.close();
+
+        return result;
+    }
+
     @Override
     public Enrollments findById(int id) throws SQLException {
         Enrollments s = null;

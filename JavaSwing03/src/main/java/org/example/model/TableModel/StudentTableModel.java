@@ -1,19 +1,16 @@
 package org.example.model.TableModel;
 
 import org.example.model.Student;
-import org.example.utils.DateLabelFormatter;
 
 import javax.swing.table.AbstractTableModel;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class StudentTableModal extends AbstractTableModel {
+public class StudentTableModel extends AbstractTableModel {
     private String[] columnNames = new String[] { "ID", "NAME", "EMAIL", "PHONE","DOB"};
     private List<Student> studentList;
-    public StudentTableModal(){
+    public StudentTableModel(){
         studentList = new ArrayList<>();
     }
     public void setData(List<Student> studentList){
