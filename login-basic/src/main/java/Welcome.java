@@ -1,5 +1,6 @@
 
 
+import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.Cookie;
@@ -12,7 +13,7 @@ import java.io.PrintWriter;
 /**
  * Servlet implementation class Welcome
  */
-@WebServlet(urlPatterns= {"/","/welcome"})
+@WebServlet(urlPatterns= {"/welcome"})
 public class Welcome extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -34,20 +35,22 @@ public class Welcome extends HttpServlet {
 			return;
 		}
 		for(Cookie i:c) {
-			if(i.getName().equals("name")&&i.getValue()!="")
+			if(i.getName().equals("name"))
 			{
-				response.setContentType("text/html");
-				PrintWriter out =  response.getWriter();
-				out.println("<h1>Welcome "+i.getValue()+"!</h1>");
-				out.println("<form action='' method='post'><button type='submit'>Logout</button></form>");
-				out.close();
+				User user = UserMockup.findUserByName(i.getValue());
+//				response.setContentType("text/html");
+//				PrintWriter out =  response.getWriter();
+//				out.println("<h1>Welcome "+i.getValue()+"!</h1>");
+//				out.println("<form action='' method='post'><button type='submit'>Logout</button></form>");
+//				out.close();
+//				return;
+				request.setAttribute("user",user );
+				RequestDispatcher dispatcher = request.getRequestDispatcher("welcome.jsp");
+				dispatcher.forward(request, response);
 				return;
 			}
 		}
-		response.sendRedirect("login");
-
-		
-		
+		response.sendRedirect("login");	
 	}
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		Cookie[] c = request.getCookies();

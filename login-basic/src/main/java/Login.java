@@ -1,5 +1,6 @@
 
 
+import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.Cookie;
@@ -7,8 +8,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.PrintWriter;
-
+import java.util.*;
 /**
  * Servlet implementation class Login
  */
@@ -38,11 +38,10 @@ public class Login extends HttpServlet {
 				}
 			}	
 		}
-		
-		response.setContentType("text/html");
-		PrintWriter out =  response.getWriter();
-		loginForm(out);
-		out.close();
+		Map<String,String> formErr = new HashMap<>();
+		request.setAttribute("formErr", formErr);
+		RequestDispatcher dispatch = request.getRequestDispatcher("login.jsp");
+		dispatch.forward(request, response);
 	}
 
 	/**
@@ -51,36 +50,33 @@ public class Login extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String name = request.getParameter("name");
 		String password = request.getParameter("password");
-		PrintWriter out =  response.getWriter();
-		response.setContentType("text/html");
+
+		RequestDispatcher dispatch = request.getRequestDispatcher("login.jsp");
+		Map<String,String> formErr = new HashMap<>();
 		
-		if(name==null || name =="" || password==null || password=="") {			
-			out.println("<p style='color:red'>Can not leave anything blank!</p>");
-			loginForm(out);
-			out.close();
-			
+		User user = UserMockup.findUserByName(name);
+		if(user==null) {
+			formErr.put("name", "user not exist!");
+			request.setAttribute("formErr", formErr);
+			dispatch.forward(request, response);
 			return;
 		}
-		
-			if(UserMockup.findUser(new User(name, password))) {
-				response.addCookie(new Cookie("name", name));
+		if(user!=null) {
+			if(user.getPassword().equals(password)) {
+				response.addCookie(new Cookie("name", name));				
 				response.sendRedirect("welcome");
-				return;				
+				return;								
 			}
-		
-		out.println("<p style='color:red'>Login fail!\nLogin again!</p>");
-		loginForm(out);
-		out.close();
+			else {
+				formErr.put("password", "wrong password");
+				request.setAttribute("formErr", formErr);
+				dispatch.forward(request, response);
+				return;
+			}
+		}
+	
 		
 	}
-	private void loginForm(PrintWriter out) {
-		out.println("<h1>Login form</h1>");
-		out.println("<form action='' method='post'>"+
-				"name: <input name='name' type='text'/>"+
-				"password: <input name='password' type='password'/>"+
-				"<button type='submit'>Login</button>"
-				+ "</form>");
-		out.println("<p>Don't have any acount? <a href='signup'>Sign up here</a></p>");
-	}
+	
 
 }
