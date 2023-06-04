@@ -28,6 +28,8 @@ public class MySQLCourse implements CourseDAO {
             FIND_BY_STUDENT_ID = "SELECT course.*, enrollments.enrollment_date as enrollment_date FROM course INNER JOIN enrollments ON course.id = enrollments.course_id WHERE enrollments.student_id=?";
     private static final String
             FIND_NOT_REGIS_COURSE = "select * from course where id not in (select course_id from enrollments where student_id = ?);";
+    private static final String
+            DELETE_ENROLMENTS = "DELETE FROM enrollments where course_id=?";
     @Override
     public Course insert(Course course) throws SQLException {
         if(course == null ||course.getId()!=-1)
@@ -63,6 +65,12 @@ public class MySQLCourse implements CourseDAO {
     @Override
     public int delete(Course course) throws SQLException {
         Connection c = DaoFactory.getDatabase().openConnection();
+
+        PreparedStatement pstmt0 = c.prepareStatement(DELETE_ENROLMENTS, PreparedStatement.RETURN_GENERATED_KEYS);
+        pstmt0.setInt(1, course.getId());
+        pstmt0.executeUpdate();
+        pstmt0.close();
+
         PreparedStatement pstmt = c.prepareStatement(DELETE, PreparedStatement.RETURN_GENERATED_KEYS);
         pstmt.setInt(1, course.getId());
 

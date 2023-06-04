@@ -1,26 +1,14 @@
 package org.example.view.Course;
 
 import org.example.model.Course;
-import org.example.model.DAO.concrete.MySQLCourse;
-import org.example.model.Course;
 import org.example.model.TableModel.CourseTableModel;
-import org.example.model.TableModel.CourseTableModel;
-import org.example.utils.DateLabelFormatter;
-//import org.example.utils.ValidateCourseInfo;
-import org.jdatepicker.impl.JDatePanelImpl;
-import org.jdatepicker.impl.JDatePickerImpl;
-import org.jdatepicker.impl.UtilDateModel;
-
 import javax.swing.*;
 import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.awt.event.ActionListener;
-import java.sql.SQLException;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.Properties;
 
 import static javax.swing.JOptionPane.showMessageDialog;
+import static javax.swing.JOptionPane.showOptionDialog;
 
 public class CourseView extends JPanel {
         //menu
@@ -39,57 +27,42 @@ public class CourseView extends JPanel {
         private JTextField txfCourseName;
         private JTextField txfCourseDescription;
         private JTextField txfCourseId;
-        private JLabel lbCourseId;
-        private JLabel lbCourseName;
-        private JLabel lbCourseDescription;
-        //Table
+    //Table
         private JScrollPane jscCourseList;
         private JTable tbCourseList;
         private CourseTableModel courseTableModal;
         public CourseView(){
-
             initComponents();
         }
-        private void initComponents(){
-
+        private void initComponents() {
             initCourseMenu();
-
             panelCourseData();
-
             initTableCourseList();
-
-            setLayout(new BoxLayout(this,BoxLayout.Y_AXIS));
+            setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
             add(pnCourseData);
             add(pnCourseMenu);
             add(jscCourseList);
-
         }
         private void panelCourseInfo(){
             pnCourseInfo = new JPanel();
             pnCourseInfo.setLayout(new GridLayout(5,2));
-            lbCourseId = new javax.swing.JLabel();
+            JLabel lbCourseId = new JLabel();
             txfCourseId = new javax.swing.JTextField();
-            lbCourseName = new javax.swing.JLabel();
+            JLabel lbCourseName = new JLabel();
             txfCourseName = new javax.swing.JTextField();
-            lbCourseDescription=new JLabel();
+            JLabel lbCourseDescription = new JLabel();
             txfCourseDescription=new JTextField();
             lbCourseId.setText("ID");
             txfCourseId.setText("");
             txfCourseId.setEnabled(false);
-
             pnCourseInfo.add(lbCourseId);
             pnCourseInfo.add(txfCourseId);
-
-
             lbCourseName.setText("Name");
             txfCourseName.setText("");
             pnCourseInfo.add(lbCourseName);
             pnCourseInfo.add(txfCourseName);
-
-
             lbCourseDescription.setText("Description");
             pnCourseInfo.add(lbCourseDescription);
-
             txfCourseDescription.setText("");
             pnCourseInfo.add(txfCourseDescription);
 
@@ -102,7 +75,6 @@ public void fillSelectTable(){
         txfCourseId.setText(tbCourseList.getValueAt(row, 0).toString());
         txfCourseName.setText(tbCourseList.getValueAt(row, 1).toString());
         txfCourseDescription.setText(tbCourseList.getValueAt(row, 2).toString());
-
     }
 }
         private void panelCourseData(){
@@ -115,19 +87,12 @@ public void fillSelectTable(){
         private void initTableCourseList(){
             jscCourseList = new JScrollPane();
             tbCourseList = new JTable();
-
-
             courseTableModal = new CourseTableModel();
             tbCourseList.setModel(courseTableModal);
-
-
             jscCourseList.setViewportView(tbCourseList);
         }
         public void showCourseList(java.util.List<Course> courseList){
             courseTableModal.setData(courseList);
-        }
-        public void fireUpdateCourseTable(){
-            courseTableModal.fireTableDataChanged();
         }
         private void initCourseMenu(){
             pnCourseMenu = new JPanel();
@@ -192,12 +157,14 @@ public void fillSelectTable(){
                 return null;
             }
 
-            Course course = new Course(id, name, description);
-            return course;
+            return new Course(id, name, description);
         }
         public void showMessage(String message){
             showMessageDialog(this,message);
         }
+    public int showConfirm(String message){
+        return showOptionDialog(this,message,"Confirm", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE, null,null,null);
+    }
 
 
 }

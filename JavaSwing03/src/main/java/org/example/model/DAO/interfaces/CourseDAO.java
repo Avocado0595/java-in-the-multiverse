@@ -9,6 +9,8 @@ public interface CourseDAO {
     Course insert(Course course) throws SQLException;
     List<Course> getAll() throws SQLException;
     int delete(Course course) throws SQLException;
+
     Course findById(int id) throws SQLException;
+
     int update(Course course) throws SQLException;
 }

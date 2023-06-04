@@ -1,0 +1,3 @@
+DB.PASSWORD=password
+DB.USERNAME=root
+DB.URL=jdbc:mysql://127.0.0.1:3306/studentdb

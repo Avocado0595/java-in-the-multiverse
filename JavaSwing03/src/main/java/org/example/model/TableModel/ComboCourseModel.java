@@ -2,8 +2,8 @@ package org.example.model.TableModel;
 
 
 public class ComboCourseModel  {
-    private String value;
-    private int key;
+    private final String value;
+    private final int key;
     public ComboCourseModel(int key, String value) {
         this.key = key;
         this.value = value;

@@ -46,7 +46,6 @@ private static final String
         pstmt.executeUpdate();
 
         pstmt.close();
-        System.out.println(pstmt);
         c.close();
 
         return student;

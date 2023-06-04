@@ -17,8 +17,7 @@ public class MySQL extends DaoFactory {
     public Connection openConnection() {
         try {
             Class.forName(driver).newInstance();
-            Connection connection = DriverManager.getConnection(url , user, password);
-            return connection;
+            return DriverManager.getConnection(url , user, password);
         } catch (SQLException e) {
             e.printStackTrace();
         } catch (Exception ex){
@@ -36,11 +35,5 @@ public class MySQL extends DaoFactory {
             System.out.println("Can not close db.");
         }
     }
-
-    @Override
-    public StudentDAO getStudentDao() {
-        return new MySQLStudent();
-    }
-
 
 }

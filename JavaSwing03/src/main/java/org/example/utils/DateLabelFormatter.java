@@ -9,8 +9,8 @@ import java.util.Calendar;
 
 public class DateLabelFormatter extends JFormattedTextField.AbstractFormatter {
 
-    private String datePattern = "dd/MM/yyyy";
-    private SimpleDateFormat dateFormatter = new SimpleDateFormat(datePattern);
+    private final String datePattern = "dd/MM/yyyy";
+    private final SimpleDateFormat dateFormatter = new SimpleDateFormat(datePattern);
 
     @Override
     public Object stringToValue(String text) throws ParseException {

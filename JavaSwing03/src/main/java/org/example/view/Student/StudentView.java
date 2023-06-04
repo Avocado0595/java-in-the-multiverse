@@ -2,12 +2,10 @@ package org.example.view.Student;
 
 import org.example.model.Course;
 import org.example.model.DAO.concrete.MySQLCourse;
-import org.example.model.DAO.interfaces.CourseDAO;
 import org.example.model.Enrollments;
 import org.example.model.RegistedCourse;
 import org.example.model.Student;
 import org.example.model.TableModel.ComboCourseModel;
-import org.example.model.TableModel.CourseTableModel;
 import org.example.model.TableModel.RegistedCourseTableModel;
 import org.example.model.TableModel.StudentTableModel;
 import org.example.utils.DateLabelFormatter;
@@ -20,15 +18,14 @@ import javax.swing.*;
 import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.awt.event.ActionListener;
-import java.awt.event.ItemListener;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
 import static javax.swing.JOptionPane.showMessageDialog;
+import static javax.swing.JOptionPane.showOptionDialog;
 
 public class StudentView extends JPanel {
     //menu
@@ -40,18 +37,13 @@ public class StudentView extends JPanel {
     private JButton btnSave;
     //Data
     private JPanel pnStudentData;
-    private JLabel lbStudentCourses;
     //course list
     private JPanel pnStudentCourses;
-    private JScrollPane jscCourseList;
     private JTable tbCourseList;
-    //button course
-    private JPanel pnCourseControl;
     private JButton btnAddCourse;
     private JButton btnDeleteCourse;
-    private JComboBox cbCourse;
+    private final JComboBox cbCourse = new JComboBox();
     private JButton btnAddACourse;
-    private JButton btnDeleteACourse;
     private RegistedCourseTableModel courseTableModel;
     //Info
     private JPanel pnStudentInfo;
@@ -61,17 +53,11 @@ public class StudentView extends JPanel {
     private JTextField txfStudentId;
     private JTextField txfStudentName;
     private JTextField txfStudentPhone;
-    private JLabel lbStudentDob;
-    private JLabel lbStudentEmail;
-    private JLabel lbStudentId;
-    private JLabel lbStudentName;
-    private JLabel lbStudentPhone;
     //Table
     private JScrollPane jscStudentList;
     private JTable tbStudentList;
     private StudentTableModel studentTableModel;
     public StudentView(){
-
         initComponents();
     }
     private void initComponents(){
@@ -91,21 +77,23 @@ public class StudentView extends JPanel {
     private void panelStudentInfo(){
         pnStudentInfo = new JPanel();
         pnStudentInfo.setLayout(new GridLayout(5,2));
-        lbStudentId = new javax.swing.JLabel();
+        JLabel lbStudentId = new JLabel();
         txfStudentId = new javax.swing.JTextField();
-        lbStudentName = new javax.swing.JLabel();
+        JLabel lbStudentName = new JLabel();
         txfStudentName = new javax.swing.JTextField();
-        lbStudentEmail = new javax.swing.JLabel();
+        JLabel lbStudentEmail = new JLabel();
         txfStudentEmail = new javax.swing.JTextField();
-        lbStudentPhone = new javax.swing.JLabel();
+        JLabel lbStudentPhone = new JLabel();
         txfStudentPhone = new javax.swing.JTextField();
-        lbStudentDob = new javax.swing.JLabel();
+        JLabel lbStudentDob = new JLabel();
         UtilDateModel model = new UtilDateModel();
+        model.setDate(2000,1,1);
         Properties p = new Properties();
         p.put("text.today", "Today");
         p.put("text.month", "Month");
         p.put("text.year", "Year");
         JDatePanelImpl datePanel = new JDatePanelImpl(model,p);
+
         dpkStudentDob = new JDatePickerImpl(datePanel, new DateLabelFormatter());
 
         lbStudentId.setText("ID");
@@ -144,8 +132,8 @@ public class StudentView extends JPanel {
 
     private void tableStudentCourse(){
         pnStudentCourses = new JPanel();
-        lbStudentCourses = new JLabel("Registered courses");
-        jscCourseList = new JScrollPane();
+        JLabel lbStudentCourses = new JLabel("Registered courses");
+        JScrollPane jscCourseList = new JScrollPane();
         tbCourseList = new JTable();
         courseTableModel = new RegistedCourseTableModel();
         tbCourseList.setModel(courseTableModel);
@@ -154,7 +142,8 @@ public class StudentView extends JPanel {
         pnStudentCourses.add(lbStudentCourses);
         pnStudentCourses.add(jscCourseList);
 
-        pnCourseControl = new JPanel();
+        //button course
+        JPanel pnCourseControl = new JPanel();
         btnAddCourse = new JButton("ADD COURSE");
         btnDeleteCourse = new JButton("DELETE COURSE");
         setEnableCourseBtn(false);
@@ -163,9 +152,7 @@ public class StudentView extends JPanel {
 
         pnStudentCourses.add(pnCourseControl);
         pnStudentCourses.setLayout(new BoxLayout(pnStudentCourses,BoxLayout.Y_AXIS));
-        cbCourse = new JComboBox();
         btnAddACourse = new JButton("ADD A COURSE");
-        btnDeleteACourse = new JButton("DELETE A COURSE");
     }
     private void panelStudentData(){
         panelStudentInfo();
@@ -189,12 +176,14 @@ public class StudentView extends JPanel {
     public void showStudentList(java.util.List<Student> studentList){
         studentTableModel.setData(studentList);
     }
-    public void fireUpdateStudentTable(){
-        studentTableModel.fireTableDataChanged();
+    public int getSelectedCourseRow(){
+        int row = tbCourseList.getSelectedRow();
+        if(row>-1){
+            return Integer.parseInt(tbCourseList.getValueAt(row,0).toString());
+        }
+        return -1;
     }
-    public void fireUpdateCourseTable(){
-        courseTableModel.fireTableDataChanged();
-    }
+
     private void initStudentMenu(){
         pnStudentMenu = new JPanel();
         btnNew = new JButton("NEW");
@@ -212,9 +201,6 @@ public class StudentView extends JPanel {
     }
 
     //Event
-    public void addSelectCourseListener(ItemListener itemListener){
-        cbCourse.addItemListener(itemListener);
-    }
 
     public void addSelectRowListener(ListSelectionListener listener){
         tbStudentList.getSelectionModel().addListSelectionListener(listener);
@@ -244,14 +230,12 @@ public class StudentView extends JPanel {
     public void addClickDeleteCourse(ActionListener listener){
         btnDeleteCourse.addActionListener(listener);
     }
-    public void addClickDeleteACourse(ActionListener listener){btnDeleteACourse.addActionListener(listener);}
     //Method
     public void setEnableCourseBtn(boolean b){
         btnAddCourse.setEnabled(b);
         btnDeleteCourse.setEnabled(b);
         btnSave.setEnabled(b);
     }
-
     public boolean isCreatingNew(){
         return txfStudentId.getText().equals("");
     }
@@ -273,9 +257,7 @@ public class StudentView extends JPanel {
         java.util.List<RegistedCourse> registedCourses = null;
         try {
             registedCourses = mySQLCourse.findRegistedByStudentId(Integer.parseInt(tbStudentList.getValueAt(row,0).toString()));
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        } catch (NumberFormatException e) {
+        } catch (SQLException | NumberFormatException e) {
             throw new RuntimeException(e);
         }
 
@@ -301,7 +283,7 @@ public class StudentView extends JPanel {
         String name = txfStudentName.getText();
         String email = txfStudentEmail.getText();
         String phone = txfStudentPhone.getText();
-        if(name.length()<3){
+        if(name.length()<2){
             showMessage("Invalid name");
             return null;
         }
@@ -323,14 +305,15 @@ public class StudentView extends JPanel {
             showMessage("Invalid date of birth");
             return null;
         }
-
-        Student student = new Student(id,name, email, phone, dob);
-        return student;
+        return new Student(id,name, email, phone, dob);
     }
     public void showMessage(String message){
         showMessageDialog(this,message);
     }
-    public void showCourseList(JFrame f, boolean isDelete){
+    public int showConfirm(String message){
+        return showOptionDialog(this,message,"Confirm", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE, null,null,null);
+    }
+    public void showCourseList(JFrame f){
         JDialog dlg = new JDialog(f);
 
         try {
@@ -339,12 +322,8 @@ public class StudentView extends JPanel {
             JPanel pnCombo = new JPanel();
             pnCombo.setLayout(new FlowLayout());
             List<Course> courseList;
-            if(!isDelete){
-                courseList = courseDAO.findNotRegisCourse(Integer.parseInt(txfStudentId.getText()));
-            }
-            else{
-                courseList = courseDAO.findByStudentId(Integer.parseInt(txfStudentId.getText()));
-            }
+            courseList = courseDAO.findNotRegisCourse(Integer.parseInt(txfStudentId.getText()));
+
             DefaultComboBoxModel model = new DefaultComboBoxModel();
             for (int i = 0; i < courseList.size(); i++) {
                 model.addElement(new ComboCourseModel(courseList.get(i).getId(),courseList.get(i).getName()));
@@ -356,11 +335,7 @@ public class StudentView extends JPanel {
             pnCombo.add(cbCourse);
 
             pnDialog.add(pnCombo);
-            if(!isDelete)
-                pnDialog.add(btnAddACourse);
-            else
-                pnDialog.add(btnDeleteACourse);
-
+            pnDialog.add(btnAddACourse);
             dlg.add(pnDialog);
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -370,6 +345,8 @@ public class StudentView extends JPanel {
         dlg.setVisible(true);
     }
     public Enrollments getSelectedCourseId(){
+        if(cbCourse.getSelectedItem()==null)
+            return null;
         int courseId =  ((ComboCourseModel)cbCourse.getSelectedItem()).getKey();
         int studentId = Integer.parseInt(txfStudentId.getText());
         LocalDate enrollDate = LocalDate.now();

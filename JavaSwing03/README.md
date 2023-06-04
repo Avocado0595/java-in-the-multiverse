@@ -1,3 +1,5 @@
+Clip demo: https://www.youtube.com/watch?v=oEEN2BrCfRY
+
 xây dựng một ứng dụng Java sử dụng JDBC để kết nối và thao tác với một cơ sở dữ liệu MySQL. Cơ sở dữ liệu chứa các bảng sau:
 
 students: chứa các thông tin về sinh viên, bao gồm id (số nguyên, khóa chính), name (chuỗi), email (chuỗi), phone (chuỗi), và dob (ngày tháng năm).

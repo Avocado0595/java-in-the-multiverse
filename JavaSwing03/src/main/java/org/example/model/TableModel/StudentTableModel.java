@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class StudentTableModel extends AbstractTableModel {
-    private String[] columnNames = new String[] { "ID", "NAME", "EMAIL", "PHONE","DOB"};
+    private final String[] columnNames = new String[] { "ID", "NAME", "EMAIL", "PHONE","DOB"};
     private List<Student> studentList;
     public StudentTableModel(){
         studentList = new ArrayList<>();
@@ -34,19 +34,13 @@ public class StudentTableModel extends AbstractTableModel {
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
-        switch (columnIndex){
-            case 0:
-                return studentList.get(rowIndex).getId();
-            case 1:
-                return studentList.get(rowIndex).getName();
-            case 2:
-                return studentList.get(rowIndex).getEmail();
-            case 3:
-                return studentList.get(rowIndex).getPhone();
-            case 4:
-                return studentList.get(rowIndex).getDob().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-            default:
-                return null;
-        }
+        return switch (columnIndex) {
+            case 0 -> studentList.get(rowIndex).getId();
+            case 1 -> studentList.get(rowIndex).getName();
+            case 2 -> studentList.get(rowIndex).getEmail();
+            case 3 -> studentList.get(rowIndex).getPhone();
+            case 4 -> studentList.get(rowIndex).getDob().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+            default -> null;
+        };
     }
 }

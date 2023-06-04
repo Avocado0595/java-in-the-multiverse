@@ -1,27 +1,24 @@
 package org.example.controller;
 
-import org.example.Main;
 import org.example.model.DAO.concrete.MySQLEnrollments;
 import org.example.model.DAO.concrete.MySQLStudent;
 import org.example.model.DAO.interfaces.StudentDAO;
-import org.example.model.Enrollments;
 import org.example.model.Student;
 import org.example.view.MainView;
 import org.example.view.Student.StudentView;
 
+import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 import java.sql.SQLException;
 
 public class StudentController {
-    private StudentDAO studentDAO;
-    private StudentView studentView;
-    private MainView mainView;
-    private MySQLEnrollments mySQLEnrollments;
+    private final StudentDAO studentDAO;
+    private final StudentView studentView;
+    private final MainView mainView;
+    private final MySQLEnrollments mySQLEnrollments;
     public StudentController(StudentView studentView, MainView mainView){
         this.studentDAO = new MySQLStudent();
         this.mySQLEnrollments = new MySQLEnrollments();
@@ -32,7 +29,7 @@ public class StudentController {
 
 
     }
-private void showStudentList(){
+    private void showStudentList(){
     try {
         studentView.showStudentList(studentDAO.getAll());
     } catch (SQLException e) {
@@ -74,9 +71,14 @@ private void showStudentList(){
                     return;
                 Student student = studentView.getStudentInfo();
                 try {
-                    studentDAO.delete(student);
-                    showStudentList();
-                    studentView.resetTextfield();
+                    int op = studentView.showConfirm("Delete student id = " +student.getId()+", name = "+ student.getName());
+                    if(op== JOptionPane.YES_OPTION){
+                        studentDAO.delete(student);
+                        showStudentList();
+                        studentView.resetTextfield();
+                    }
+                    else return;
+
                 } catch (SQLException ex) {
                     throw new RuntimeException(ex);
                 }
@@ -109,26 +111,27 @@ private void showStudentList(){
         studentView.addClickAddCourse(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                studentView.showCourseList(mainView, false);
+                studentView.showCourseList(mainView);
             }
         });
         studentView.addClickDeleteCourse(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                studentView.showCourseList(mainView, true);
-            }
-        });
-        studentView.addClickDeleteACourse(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                try {
-                    mySQLEnrollments.deleteByStudentAndCourseId(studentView.getSelectedCourseId().getStudentId(),studentView.getSelectedCourseId().getCourseId());
-                    studentView.fillSelectTable();
-                } catch (SQLException ex) {
-                    throw new RuntimeException(ex);
+                int courseId = studentView.getSelectedCourseRow();
+                if(courseId!=-1){
+                    try {
+                        int op = studentView.showConfirm("Delete registered courseid = " +courseId);
+                        if(op== JOptionPane.YES_OPTION) {
+                            mySQLEnrollments.deleteByStudentAndCourseId(studentView.getStudentInfo().getId(), courseId);
+                            studentView.fillSelectTable();
+                        }
+                    } catch (SQLException ex) {
+                        throw new RuntimeException(ex);
+                    }
                 }
             }
         });
+
         studentView.addClickAddACourse(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
