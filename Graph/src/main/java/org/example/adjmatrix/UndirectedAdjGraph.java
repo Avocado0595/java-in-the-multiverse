@@ -1,6 +1,8 @@
-package org.example;
+package org.example.adjmatrix;
 
-public class UndirectedAdjGraph extends AdjacencyGraph{
+import org.example.adjmatrix.AdjacencyGraph;
+
+public class UndirectedAdjGraph extends AdjacencyGraph {
     public UndirectedAdjGraph(int V) {
         super(V);
     }

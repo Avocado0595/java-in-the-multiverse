@@ -1,0 +1,4 @@
+DBPASSWORD=password
+DBUSERNAME=username
+DBURL=url to mysql
+UPLOADS=path to save upload avatar

@@ -10,12 +10,12 @@
 <body>
 <h2>Login form</h2>
 
-
+<span style='color:red'>${formErr.get("header") } </span>
 <form action="" method="POST">
 <div class="field">
-<label for="name">Name</label>
-<input required type="text" id="name" name="name"/>
-<span style='color:red'>${formErr.get("name") } </span>
+<label for="email">Email</label>
+<input required type="email" id="email" name="email"/>
+<span style='color:red'>${formErr.get("email") } </span>
 </div>
 
 <div class="field">

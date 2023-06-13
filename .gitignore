@@ -5,3 +5,6 @@ bin/
 out
 *.properties
 target
+key.priv
+key.pub
+build/

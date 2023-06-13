@@ -20,8 +20,14 @@
 			<arguments>
 			</arguments>
 		</buildCommand>
+		<buildCommand>
+			<name>org.eclipse.m2e.core.maven2Builder</name>
+			<arguments>
+			</arguments>
+		</buildCommand>
 	</buildSpec>
 	<natures>
+		<nature>org.eclipse.m2e.core.maven2Nature</nature>
 		<nature>org.eclipse.jem.workbench.JavaEMFNature</nature>
 		<nature>org.eclipse.wst.common.modulecore.ModuleCoreNature</nature>
 		<nature>org.eclipse.wst.common.project.facet.core.nature</nature>
@@ -30,7 +36,7 @@
 	</natures>
 	<filteredResources>
 		<filter>
-			<id>1685750773797</id>
+			<id>1686497277592</id>
 			<name></name>
 			<type>30</type>
 			<matcher>
@@ -39,4 +45,10 @@
 			</matcher>
 		</filter>
 	</filteredResources>
+	<variableList>
+		<variable>
+			<name>resources</name>
+			<value>file:/E:/Project/JAVA/servlet/servlet-01/login-basic/src/main/resources</value>
+		</variable>
+	</variableList>
 </projectDescription>
