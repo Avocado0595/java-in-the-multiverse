@@ -3,20 +3,20 @@ package org.example.adjmatrix;
 import java.util.*;
 
 public abstract class AdjacencyGraph {
-    private final int V;// số đỉnh
+    private final int V;// số đỉnh (start =1)
     private int E;// số cạnh
-    private int[][] adj;// ma trận kề lưu đường đi giữa các đỉnh
+    private final int[][] adj;// ma trận kề lưu đường đi giữa các đỉnh
     private int[] level;
     public int getLevel(int v){
         return level[v];
     }
     // init matrix
     public AdjacencyGraph(int V) {
-        this.V = V;
+        this.V = V+1;
         this.E = 0;
         this.adj = new int[V][V];
-        for (int i = 0; i < V; i++)
-            for (int j = 0; j < V; j++)
+        for (int i = 1; i < V; i++)
+            for (int j = 1; j < V; j++)
                 adj[i][j] = 0;
     }
 
@@ -47,7 +47,7 @@ public abstract class AdjacencyGraph {
      */
     public Iterable<Integer> getAdjList(int v) {
         List<Integer> ls = new ArrayList<>();
-        for (int i = 0; i < V; i++)
+        for (int i = 1; i < V; i++)
             if (this.adj[v][i] == 1)
                 ls.add(i);
         return ls;
@@ -66,8 +66,8 @@ public abstract class AdjacencyGraph {
      * in ma trận kề
      */
     public void printMatrix() {
-        for (int i = 0; i < V; i++) {
-            for (int j = 0; j < V; j++) {
+        for (int i = 1; i < V; i++) {
+            for (int j = 1; j < V; j++) {
                 System.out.print(adj[i][j] + ", ");
             }
             System.out.println();
@@ -81,7 +81,7 @@ public abstract class AdjacencyGraph {
     public void checkConnectedComponent(int start){
         boolean[] visited = new boolean[V];
         int connectedComponents=0;
-        for(int i=0; i<V;i++){
+        for(int i=1; i<V;i++){
             if(!visited[i]){
 
                 this._dfs(i, visited);
@@ -97,7 +97,7 @@ public abstract class AdjacencyGraph {
     }
     private void _dfs(int start, boolean[] visited) {
         visited[start] = true;
-        for (int i = 0; i < this.adj[start].length; i++) {
+        for (int i = 1; i < this.adj[start].length; i++) {
             if (adj[start][i] == 1 && (!visited[i])) {
                 _dfs(i, visited);
             }
@@ -112,7 +112,7 @@ public abstract class AdjacencyGraph {
     public void dfs(int start, boolean[] visited) {
         System.out.print(start + ", ");
         visited[start] = true;
-        for (int i = 0; i < this.adj[start].length; i++) {
+        for (int i = 1; i < this.adj[start].length; i++) {
             if (adj[start][i] == 1 && (!visited[i])) {
                 dfs(i, visited);
             }
@@ -168,7 +168,7 @@ public abstract class AdjacencyGraph {
             System.out.print(vis + ", ");
             q.remove(q.get(0));
 
-            for (int i = 0; i < V; i++) {
+            for (int i = 1; i < V; i++) {
                 if (adj[vis][i] == 1 && (!visited[i])){
                     level[i] = level[vis]+1;
                     q.add(i);
